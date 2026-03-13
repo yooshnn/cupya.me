@@ -1,0 +1,7 @@
+{
+  "extends": "@cupya.me/typescript-config/node",
+  "compilerOptions": {
+    "types": ["node", "@cloudflare/workers-types"]
+  },
+  "include": ["src/**/*"]
+}
