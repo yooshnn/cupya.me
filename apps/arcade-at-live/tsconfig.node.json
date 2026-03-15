@@ -1,0 +1,4 @@
+{
+  "extends": "@cupya.me/typescript-config/node",
+  "include": ["vite.config.ts", "drizzle.config.ts"]
+}

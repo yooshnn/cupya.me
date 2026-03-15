@@ -8,10 +8,23 @@ catalogs:
     '@eslint-react/eslint-plugin': ^2.13.0
     '@types/node': ^22.0.0
     '@cloudflare/workers-types': '^4.0.0'
+    '@cloudflare/vite-plugin': ^1.13.5
+    '@react-router/dev': ^7.10.0
+    '@tailwindcss/vite': ^4.1.13
+    '@types/react': ^19.1.13
+    '@types/react-dom': ^19.1.9
     drizzle-orm: ^0.45.1
     drizzle-kit: ^0.31.9
     eslint: ^9.0.0
     eslint-plugin-react-hooks: ^7.0.1
     eslint-plugin-react-refresh: ^0.5.2
+    isbot: ^5.1.31
+    react: ^19.1.1
+    react-dom: ^19.1.1
+    react-router: ^7.10.0
+    tailwindcss: ^4.1.13
     turbo: ^2.8.14
     typescript: ^5.9.2
+    vite: ^7.1.7
+    vite-tsconfig-paths: ^5.1.4
+    wrangler: ^4.73.0
