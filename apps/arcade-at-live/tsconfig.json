@@ -1,0 +1,8 @@
+{
+  "noEmit": true,
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.cloudflare.json" }
+  ],
+  "files": []
+}

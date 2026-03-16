@@ -1,0 +1,328 @@
+{
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "b014d1ea-6497-4932-a448-7cd1a7086dcf",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "al_arcades": {
+      "name": "al_arcades",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "is_closed": {
+          "name": "is_closed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(datetime('now'))"
+        }
+      },
+      "indexes": {
+        "al_arcades_slug_unique": {
+          "name": "al_arcades_slug_unique",
+          "columns": [
+            "slug"
+          ],
+          "isUnique": true
+        },
+        "idx_arcades_is_closed": {
+          "name": "idx_arcades_is_closed",
+          "columns": [
+            "is_closed"
+          ],
+          "isUnique": false
+        },
+        "idx_arcades_slug": {
+          "name": "idx_arcades_slug",
+          "columns": [
+            "slug"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "al_channels": {
+      "name": "al_channels",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "arcade_id": {
+          "name": "arcade_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "youtube_channel_id": {
+          "name": "youtube_channel_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(datetime('now'))"
+        }
+      },
+      "indexes": {
+        "al_channels_youtube_channel_id_unique": {
+          "name": "al_channels_youtube_channel_id_unique",
+          "columns": [
+            "youtube_channel_id"
+          ],
+          "isUnique": true
+        },
+        "idx_channels_arcade_id": {
+          "name": "idx_channels_arcade_id",
+          "columns": [
+            "arcade_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "al_channels_arcade_id_al_arcades_id_fk": {
+          "name": "al_channels_arcade_id_al_arcades_id_fk",
+          "tableFrom": "al_channels",
+          "tableTo": "al_arcades",
+          "columnsFrom": [
+            "arcade_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "al_games": {
+      "name": "al_games",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "alias": {
+          "name": "alias",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "al_games_name_unique": {
+          "name": "al_games_name_unique",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        },
+        "al_games_alias_unique": {
+          "name": "al_games_alias_unique",
+          "columns": [
+            "alias"
+          ],
+          "isUnique": true
+        },
+        "al_games_slug_unique": {
+          "name": "al_games_slug_unique",
+          "columns": [
+            "slug"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "al_stream_rules": {
+      "name": "al_stream_rules",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "arcade_id": {
+          "name": "arcade_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "game_id": {
+          "name": "game_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "keyword": {
+          "name": "keyword",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "machine_label": {
+          "name": "machine_label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "priority": {
+          "name": "priority",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(datetime('now'))"
+        }
+      },
+      "indexes": {
+        "idx_stream_rules_arcade_id_priority": {
+          "name": "idx_stream_rules_arcade_id_priority",
+          "columns": [
+            "arcade_id",
+            "priority"
+          ],
+          "isUnique": false
+        },
+        "idx_stream_rules_game_id": {
+          "name": "idx_stream_rules_game_id",
+          "columns": [
+            "game_id"
+          ],
+          "isUnique": false
+        },
+        "al_stream_rules_arcade_id_game_id_keyword_unique": {
+          "name": "al_stream_rules_arcade_id_game_id_keyword_unique",
+          "columns": [
+            "arcade_id",
+            "game_id",
+            "keyword"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "al_stream_rules_arcade_id_al_arcades_id_fk": {
+          "name": "al_stream_rules_arcade_id_al_arcades_id_fk",
+          "tableFrom": "al_stream_rules",
+          "tableTo": "al_arcades",
+          "columnsFrom": [
+            "arcade_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "al_stream_rules_game_id_al_games_id_fk": {
+          "name": "al_stream_rules_game_id_al_games_id_fk",
+          "tableFrom": "al_stream_rules",
+          "tableTo": "al_games",
+          "columnsFrom": [
+            "game_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}
