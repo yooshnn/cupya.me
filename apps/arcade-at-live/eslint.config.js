@@ -11,7 +11,6 @@ export default defineConfig(
       'drizzle/**',
       'worker-configuration.d.ts',
       'react-router.config.ts',
-      'package.json',
     ],
   },
   {

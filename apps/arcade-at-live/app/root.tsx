@@ -1,14 +1,21 @@
 import type { Route } from './+types/root';
 
+import { CactusIcon, WarningCircleIcon } from '@phosphor-icons/react';
 import {
   isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
 } from 'react-router';
+
+import { Button } from '~/shared/ui/button';
+import { EmptyState } from '~/shared/ui/EmptyState';
 import './app.css';
+
+declare const __COMMIT_SHA__: string;
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -25,7 +32,7 @@ export const links: Route.LinksFunction = () => [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -42,35 +49,42 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <>
+      <Outlet />
+      <footer className="border-t border-line px-6 py-4 flex items-center justify-end">
+        <span className="font-mono text-xs text-label-disable">
+          ARCADE@LIVE
+          {' '}
+          {__COMMIT_SHA__}
+        </span>
+      </footer>
+    </>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = 'Oops!';
-  let details = 'An unexpected error occurred.';
-  let stack: string | undefined;
-
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? '404' : 'Error';
-    details
-      = error.status === 404
-        ? 'The requested page could not be found.'
-        : error.statusText || details;
-  }
-  else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
-  }
+  const is404 = isRouteErrorResponse(error) && error.status === 404;
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
+    <div className="min-h-screen bg-bg text-label antialiased">
+      <header className="h-16 flex items-center px-6 border-b border-line">
+        <span className="text-base font-black tracking-wide">ARCADE@LIVE</span>
+      </header>
+
+      <main className="p-6 pb-12">
+        <EmptyState
+          icon={is404 ? <CactusIcon /> : <WarningCircleIcon />}
+          message={is404 ? '404: 페이지를 찾을 수 없습니다.' : '500: 예기치 못한 오류가 발생했습니다.'}
+          action={<Button render={<Link to="/" />} nativeButton={false}>홈으로</Button>}
+        />
+
+        {import.meta.env.DEV && error instanceof Error && (
+          <pre className="mx-auto mt-8 max-w-lg overflow-x-auto rounded-lg border border-line bg-bg-elevated p-4 font-mono text-xs text-label-assistive">
+            {error.stack}
+          </pre>
+        )}
+      </main>
+    </div>
   );
 }
