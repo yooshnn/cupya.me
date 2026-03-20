@@ -11,8 +11,7 @@ export function Header() {
   return (
     <header className="flex items-center justify-between px-4 pt-5 pb-4 border-b border-line">
       <span className="font-mono font-bold text-sm text-label tracking-tight">
-        crop
-        <span className="text-primary">.</span>
+        <span className="text-primary">crop.</span>
         playshare
       </span>
 

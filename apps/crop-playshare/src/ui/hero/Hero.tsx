@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+declare const __COMMIT_SHA__: string;
+
 export function Hero() {
   const [isCropping, setIsCropping] = useState(false);
 
@@ -12,7 +14,7 @@ export function Hero() {
   }, []);
 
   return (
-    <div className="relative flex flex-col items-center w-full mx-auto fade-up p-8 pb-4 sm:p-12">
+    <div className="relative flex flex-col items-center w-full mx-auto fade-up p-8 sm:p-12 pb-4 sm:pb-6">
       <div className="absolute inset-0 bg-linear-to-b from-black/30 via-black/30 to-transparent pointer-events-none"></div>
 
       <div className="relative z-10 w-full max-w-[80%] rounded-sm">
@@ -52,7 +54,12 @@ export function Hero() {
         </div>
       </div>
 
-      <p className="font-mono mt-4 text-primary text-sm font-medium">Playshare auto-crop for pop'n music</p>
+      <p className="font-mono mt-6 text-primary text-sm font-medium">Playshare auto-crop for pop'n music</p>
+
+      <span className="font-mono mt-4 text-line-em text-xs absolute -top-1 right-4">
+        v.
+        {__COMMIT_SHA__}
+      </span>
     </div>
   );
 }
