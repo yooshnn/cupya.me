@@ -1,7 +1,7 @@
 export default {
   upload: {
     title: 'スクリーンショットを選択',
-    sub: '複数枚同時アップロード可 · PNG/JPG',
+    sub: '複数枚同時にアップロード可能です。',
   },
   options: {
     label: 'オプション',

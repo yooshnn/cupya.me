@@ -1,7 +1,7 @@
 import { useImages } from '~/hooks/useImages';
 import { ActionBar } from '~/ui/crop/ActionBar';
 import { Options } from '~/ui/crop/Options';
-import { ResultGrid } from '~/ui/crop/ResultGrid';
+import { ResultGrid } from '~/ui/crop/result/ResultGrid';
 import { Upload } from '~/ui/crop/Upload';
 import { Header } from '~/ui/layout/Header';
 import { Hero } from './ui/hero/Hero';

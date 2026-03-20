@@ -1,7 +1,7 @@
 export default {
   upload: {
     title: '스크린샷 선택',
-    sub: '여러 장 동시 업로드 가능 · PNG/JPG',
+    sub: '여러 장 동시 업로드 가능합니다.',
   },
   options: {
     label: '옵션',

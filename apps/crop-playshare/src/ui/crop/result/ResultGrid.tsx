@@ -48,7 +48,7 @@ function ResultGridHeader({
       {count > 0 && (
         <button
           onClick={onReset}
-          className="text-[11px] text-danger font-medium hover:opacity-80 transition-opacity"
+          className="text-xs text-danger font-medium hover:opacity-80 transition-opacity"
         >
           {t('result.reset')}
         </button>
