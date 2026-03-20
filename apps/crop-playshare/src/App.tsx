@@ -3,7 +3,7 @@ function App() {
     <div>
       <h1>crop-playshare</h1>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

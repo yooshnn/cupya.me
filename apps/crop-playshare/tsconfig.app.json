@@ -2,9 +2,9 @@
   "extends": "@cupya.me/typescript-config/react",
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "erasableSyntaxOnly": true,
     "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force"
+    "moduleDetection": "force",
+    "erasableSyntaxOnly": true
   },
   "include": ["src"]
 }
