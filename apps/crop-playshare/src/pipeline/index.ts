@@ -1,5 +1,5 @@
 import type { ProcessMode } from './types';
-import { applyPrivacyBlur } from './blur';
+import { applyPrivacyMask } from './blur';
 import { crop } from './crop';
 import { detect } from './detect';
 
@@ -27,7 +27,7 @@ export async function process(
 
   // Blur (if privacy mode)
   if (mode === 'privacy') {
-    const blurred = await applyPrivacyBlur(cropped);
+    const blurred = await applyPrivacyMask(cropped);
     return blurred.convertToBlob({ type: 'image/png' });
   }
 

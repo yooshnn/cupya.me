@@ -1,26 +1,19 @@
 import { RESULT_RATIO } from './types';
 
-export async function applyPrivacyBlur(
+export async function applyPrivacyMask(
   source: OffscreenCanvas,
 ): Promise<OffscreenCanvas> {
   const { width, height } = source;
-  const blurW = Math.round(width * RESULT_RATIO.userInfoWidth);
-  const blurH = Math.round(height * RESULT_RATIO.cardnameHeight);
+  const maskW = Math.round(width * RESULT_RATIO.userInfoWidth);
+  const maskH = Math.round(height * RESULT_RATIO.cardnameHeight);
+  const pad = 2;
 
   const canvas = new OffscreenCanvas(width, height);
   const ctx = canvas.getContext('2d')!;
   ctx.drawImage(source, 0, 0);
 
-  const PIXEL_SIZE = 10;
-  const tmpW = Math.ceil(blurW / PIXEL_SIZE);
-  const tmpH = Math.ceil(blurH / PIXEL_SIZE);
-
-  const tmp = new OffscreenCanvas(tmpW, tmpH);
-  const tmpCtx = tmp.getContext('2d')!;
-  tmpCtx.drawImage(source, 0, 0, blurW, blurH, 0, 0, tmpW, tmpH);
-
-  ctx.imageSmoothingEnabled = false;
-  ctx.drawImage(tmp, 0, 0, tmpW, tmpH, 0, 0, blurW, blurH);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(pad, pad, maskW - pad, maskH - pad);
 
   return canvas;
 }
