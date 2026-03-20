@@ -61,7 +61,7 @@ export function Options({ value, onChange }: Props) {
             key={opt.value}
             onClick={() => onChange(opt.value)}
             className={cn(
-              'flex items-center gap-2 px-3 py-3 rounded-[8px] border border-line transition-all',
+              'flex items-center gap-2 px-3 py-3 rounded-lg border border-line transition-all',
               'text-[13px] font-medium',
               opt.value === value
                 ? 'bg-primary/10 border-primary/50 text-primary'

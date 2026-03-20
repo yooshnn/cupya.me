@@ -14,7 +14,7 @@ export function ActionBar({ entries, onDownloadAll, onShare }: Props) {
   const isEmpty = entries.filter(e => e.status === 'complete').length === 0;
 
   return (
-    <div className="sticky bottom-0 bg-gradient-to-t from-bg via-bg/95 to-transparent via-75% pt-11 pb-7 space-y-2 px-4">
+    <div className="sticky bottom-0 bg-linear-to-t from-bg via-bg/95 to-transparent via-75% pt-11 pb-7 space-y-2 px-4">
       <div className="flex gap-2">
         <Button
           variant="secondary"
