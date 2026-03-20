@@ -11,6 +11,7 @@
     "release": "pnpm run build && wrangler pages deploy dist"
   },
   "dependencies": {
+    "@phosphor-icons/react": "catalog:",
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
     "i18next": "catalog:",
