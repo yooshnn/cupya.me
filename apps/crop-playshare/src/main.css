@@ -28,9 +28,9 @@
   --line:      #2e2e3a;
   --line-em:   #3a3a48;
   --label:     #f0f0f2;
-  --label-n:   #9090a0;
-  --label-a:   #55556a;
-  --label-d:   #35353f;
+  --label-n:   #bfbfcf;
+  --label-a:   #9494a6;
+  --label-d:   #7c7c8b;
   --primary:   #d8f050;
   --pri-text:  #1a1f08;
   --danger:    #f05050;
@@ -44,9 +44,9 @@
   --line-em:   #cccccc;
   --label:     #111118;
   --label-n:   #505060;
-  --label-a:   #909098;
-  --label-d:   #c0c0c8;
-  --primary:   #8aab00;
+  --label-a:   #6c6c76;
+  --label-d:   #909098;
+  --primary:   #5a7a00;
   --pri-text:  #ffffff;
   --danger:    #d03030;
 }
