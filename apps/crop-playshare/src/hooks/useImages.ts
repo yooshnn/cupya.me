@@ -81,7 +81,7 @@ export function useImages() {
       const url = URL.createObjectURL(entry.result!);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${entry.id}.png`;
+      a.download = `${entry.id}.webp`;
       a.click();
       URL.revokeObjectURL(url);
     });
@@ -94,7 +94,7 @@ export function useImages() {
 
     const files = done.map(
       (entry, i) =>
-        new File([entry.result!], `result_${i + 1}.png`, { type: 'image/png' }),
+        new File([entry.result!], `result_${i + 1}.webp`, { type: 'image/webp' }),
     );
 
     if (!navigator.canShare?.({ files })) {

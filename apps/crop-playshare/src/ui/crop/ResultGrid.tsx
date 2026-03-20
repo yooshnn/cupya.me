@@ -89,7 +89,7 @@ function ResultCard({ entry, onRemove }: ResultCardProps) {
         {entry.result && (
           <a
             ref={linkRef}
-            download={`${entry.id}.png`}
+            download={`${entry.id}.webp`}
             className="w-7 h-7 rounded-md bg-bg/85 border border-line flex items-center justify-center"
           >
             <DownloadIcon />
