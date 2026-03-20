@@ -1,5 +1,7 @@
+import type { Ref } from 'react';
 import type { ImageEntry } from '~/pipeline/types';
-import { useEffect, useMemo } from 'react';
+import { DownloadIcon, TrashIcon } from '@phosphor-icons/react';
+import { useEffect, useRef } from 'react';
 import { useLang } from '~/hooks/useLang';
 
 interface Props {
@@ -19,13 +21,9 @@ export function ResultGrid({ entries, onRemove, onReset }: Props) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 py-1">
           <div className="w-1 h-3 bg-primary rounded-sm" />
-          <span className="text-xs text-label">
-            {t('result.label')}
-          </span>
+          <span className="text-xs text-label">{t('result.label')}</span>
           <span className="font-mono text-xs text-label font-medium">
-            (
-            {entries.length}
-            )
+            {`(${entries.length})`}
           </span>
         </div>
         <button
@@ -44,69 +42,73 @@ export function ResultGrid({ entries, onRemove, onReset }: Props) {
   );
 }
 
-function ResultCard({
-  entry,
-  onRemove,
-}: {
+interface ResultCardProps {
   entry: ImageEntry;
   onRemove: (id: string) => void;
-}) {
-  const resultUrl = useMemo(() => {
-    if (!entry.result)
-      return null;
-    return URL.createObjectURL(entry.result);
-  }, [entry.result]);
+}
+
+function ResultCard({ entry, onRemove }: ResultCardProps) {
+  const imgRef = useRef<HTMLImageElement>(null);
+  const linkRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
+    if (!entry.result)
+      return;
+
+    const url = URL.createObjectURL(entry.result);
+
+    if (imgRef.current)
+      imgRef.current.src = url;
+    if (linkRef.current)
+      linkRef.current.href = url;
+
     return () => {
-      if (resultUrl)
-        URL.revokeObjectURL(resultUrl);
+      URL.revokeObjectURL(url);
     };
-  }, [resultUrl]);
+  }, [entry.result]);
 
   return (
     <div className="rounded-xl overflow-hidden border border-line bg-elevated relative">
-      {resultUrl
-        ? (
-            <img src={resultUrl} alt="" className="w-full block" />
-          )
-        : (
-            <div className="aspect-[2/1] flex items-center justify-center">
-              {entry.status === 'processing' && (
-                <span className="font-mono text-[10px] text-label-a">processing...</span>
-              )}
-              {entry.status === 'failed' && (
-                <span className="font-mono text-[10px] text-danger">failed</span>
-              )}
-            </div>
-          )}
+      <ResultPreview entry={entry} imgRef={imgRef} />
       <div className="absolute top-2 right-2 flex gap-1">
-        {resultUrl && (
+        {entry.result && (
           <a
-            href={resultUrl}
-            download={`result_${entry.id}.png`}
-            className="w-7 h-7 rounded-md bg-bg/85 border border-line
-                       flex items-center justify-center"
+            ref={linkRef}
+            download={`${entry.id}.png`}
+            className="w-7 h-7 rounded-md bg-bg/85 border border-line flex items-center justify-center"
           >
-            <svg width="13" height="13" fill="none" stroke="#9090a0" strokeWidth="1.8" viewBox="0 0 24 24">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
+            <DownloadIcon />
           </a>
         )}
         <button
           onClick={() => onRemove(entry.id)}
-          className="w-7 h-7 rounded-md bg-bg/85 border border-line
-                     flex items-center justify-center"
+          className="w-7 h-7 rounded-md bg-bg/85 border border-line flex items-center justify-center"
         >
-          <svg width="13" height="13" fill="none" stroke="#f05050" strokeWidth="1.8" viewBox="0 0 24 24">
-            <polyline points="3 6 5 6 21 6" />
-            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
-            <path d="M10 11v6M14 11v6" />
-          </svg>
+          <TrashIcon />
         </button>
       </div>
+    </div>
+  );
+}
+
+interface ResultPreviewProps {
+  entry: ImageEntry;
+  imgRef: Ref<HTMLImageElement>;
+}
+
+function ResultPreview({ entry, imgRef }: ResultPreviewProps) {
+  if (entry.result) {
+    return <img ref={imgRef} alt="" className="w-full block" />;
+  }
+
+  return (
+    <div className="aspect-2/1 flex items-center justify-center">
+      {entry.status === 'processing' && (
+        <span className="font-mono text-[10px] text-label-a">processing...</span>
+      )}
+      {entry.status === 'failed' && (
+        <span className="font-mono text-[10px] text-danger">failed</span>
+      )}
     </div>
   );
 }

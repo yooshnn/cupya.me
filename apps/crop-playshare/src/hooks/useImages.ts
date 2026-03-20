@@ -81,7 +81,7 @@ export function useImages() {
       const url = URL.createObjectURL(entry.result!);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${entry.id}-${Date.now()}.png`;
+      a.download = `${entry.id}.png`;
       a.click();
       URL.revokeObjectURL(url);
     });
