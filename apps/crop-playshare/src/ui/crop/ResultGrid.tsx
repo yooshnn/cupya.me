@@ -103,7 +103,7 @@ function ResultPreview({ entry, imgRef }: ResultPreviewProps) {
 
   return (
     <div className="aspect-2/1 flex items-center justify-center">
-      {entry.status === 'processing' && (
+      {(entry.status === 'processing' || entry.status === 'pending') && (
         <span className="font-mono text-[10px] text-label-a">processing...</span>
       )}
       {entry.status === 'failed' && (

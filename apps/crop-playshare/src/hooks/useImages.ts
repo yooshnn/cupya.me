@@ -61,7 +61,7 @@ export function useImages() {
     (mode: ProcessMode) => {
       setOption(mode);
       setEntries((prev) => {
-        const reset = prev.map(e => ({ ...e, status: 'pending' as const }));
+        const reset = prev.map(e => ({ ...e, status: 'processing' as const, result: undefined }));
         reset.forEach(e => processEntry(e, mode));
         return reset;
       });
