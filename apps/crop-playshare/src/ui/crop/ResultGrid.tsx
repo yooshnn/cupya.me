@@ -1,4 +1,5 @@
 import type { ImageEntry } from '~/pipeline/types';
+import { useEffect, useMemo } from 'react';
 import { useLang } from '~/hooks/useLang';
 
 interface Props {
@@ -50,7 +51,18 @@ function ResultCard({
   entry: ImageEntry;
   onRemove: (id: string) => void;
 }) {
-  const resultUrl = entry.result ? URL.createObjectURL(entry.result) : null;
+  const resultUrl = useMemo(() => {
+    if (!entry.result)
+      return null;
+    return URL.createObjectURL(entry.result);
+  }, [entry.result]);
+
+  useEffect(() => {
+    return () => {
+      if (resultUrl)
+        URL.revokeObjectURL(resultUrl);
+    };
+  }, [resultUrl]);
 
   return (
     <div className="rounded-xl overflow-hidden border border-line bg-elevated relative">
