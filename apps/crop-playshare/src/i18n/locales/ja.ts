@@ -6,7 +6,7 @@ export default {
   options: {
     label: 'オプション',
     full: '全体',
-    scoreOnly: 'リザルトのみ',
+    resultOnly: 'リザルトのみ',
     privacy: 'プライバシー',
   },
   result: {

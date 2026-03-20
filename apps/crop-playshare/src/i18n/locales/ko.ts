@@ -6,7 +6,7 @@ export default {
   options: {
     label: '옵션',
     full: '전체',
-    scoreOnly: '리절트만',
+    resultOnly: '리절트만',
     privacy: '프라이버시',
   },
   result: {
