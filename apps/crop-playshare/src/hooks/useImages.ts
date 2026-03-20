@@ -2,9 +2,17 @@ import type { ImageEntry, ProcessMode } from '../pipeline/types';
 import { useCallback, useState } from 'react';
 import { process } from '../pipeline';
 
+function generateId() {
+  let result = '';
+  while (result.length < 16) {
+    result += Math.random().toString(36).substring(2);
+  }
+  return result.substring(0, 16);
+}
+
 function createEntry(file: File): ImageEntry {
   return {
-    id: crypto.randomUUID(),
+    id: generateId(),
     original: file,
     status: 'pending',
   };
