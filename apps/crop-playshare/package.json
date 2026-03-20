@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
-    "release": "COMMIT_SHA=$(git rev-parse --short HEAD) pnpm run build && wrangler pages deploy dist"
+    "release": "COMMIT_SHA=$(git rev-parse --short HEAD) pnpm run build && wrangler pages deploy dist --branch=main"
   },
   "dependencies": {
     "@phosphor-icons/react": "catalog:",
