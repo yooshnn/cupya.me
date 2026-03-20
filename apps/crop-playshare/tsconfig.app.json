@@ -4,6 +4,10 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]
+    },
     "erasableSyntaxOnly": true
   },
   "include": ["src"]

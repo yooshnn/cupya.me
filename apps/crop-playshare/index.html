@@ -5,6 +5,14 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Crop Playshare - cupya.me</title>
+    <!-- Prevent FOUC -->
+    <script>
+      const t = localStorage.getItem('crop-playshare:theme');
+      const preferLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      if (t === 'light' || (!t && preferLight)) {
+        document.documentElement.classList.add('light');
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
