@@ -14,6 +14,7 @@ export default {
     reset: 'リセット',
     collapse: '閉じる',
     expand: '開く',
+    empty: 'スクショをアップロードしてください',
   },
   actions: {
     share: 'シェアする',

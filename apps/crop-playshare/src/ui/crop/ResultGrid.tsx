@@ -13,8 +13,23 @@ interface Props {
 export function ResultGrid({ entries, onRemove, onReset }: Props) {
   const { t } = useLang();
 
-  if (entries.length === 0)
-    return null;
+  if (entries.length === 0) {
+    return (
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 py-1">
+            <div className="w-1 h-3 bg-primary rounded-sm" />
+            <span className="text-xs text-label">{t('result.label')}</span>
+          </div>
+        </div>
+        <div className="flex items-center justify-center py-4">
+          <span className="text-xs text-label-d text-center leading-relaxed">
+            {t('result.empty')}
+          </span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-3">
