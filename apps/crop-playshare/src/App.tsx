@@ -6,15 +6,7 @@ import { Upload } from '~/ui/crop/Upload';
 import { Header } from '~/ui/layout/Header';
 
 export default function App() {
-  const { entries, option, setOption, add, remove, reset } = useImages();
-
-  const handleDownloadAll = () => {
-    // milestone 4에서 구현
-  };
-
-  const handleShare = () => {
-    // milestone 4에서 구현
-  };
+  const { entries, option, setOption, add, remove, reset, downloadAll, share } = useImages();
 
   return (
     <div className="w-full max-w-sm mx-auto bg-bg min-h-svh flex flex-col">
@@ -25,9 +17,9 @@ export default function App() {
         <ResultGrid entries={entries} onRemove={remove} onReset={reset} />
       </div>
       <ActionBar
-        onDownloadAll={handleDownloadAll}
-        onShare={handleShare}
         entries={entries}
+        onDownloadAll={downloadAll}
+        onShare={share}
       />
     </div>
   );

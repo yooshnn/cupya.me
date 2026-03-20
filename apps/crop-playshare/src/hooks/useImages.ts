@@ -67,6 +67,36 @@ export function useImages() {
 
   const reset = useCallback(() => setEntries([]), []);
 
+  const downloadAll = useCallback(() => {
+    const done = entries.filter(e => e.status === 'complete' && e.result);
+    done.forEach((entry) => {
+      const url = URL.createObjectURL(entry.result!);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${entry.id}-${Date.now()}.png`;
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }, [entries]);
+
+  const share = useCallback(async () => {
+    const done = entries.filter(e => e.status === 'complete' && e.result);
+    if (done.length === 0)
+      return;
+
+    const files = done.map(
+      (entry, i) =>
+        new File([entry.result!], `result_${i + 1}.png`, { type: 'image/png' }),
+    );
+
+    if (!navigator.canShare?.({ files })) {
+      downloadAll();
+      return;
+    }
+
+    await navigator.share({ files });
+  }, [entries, downloadAll]);
+
   return {
     entries,
     option,
@@ -74,5 +104,7 @@ export function useImages() {
     add,
     remove,
     reset,
+    downloadAll,
+    share,
   } as const;
 }
