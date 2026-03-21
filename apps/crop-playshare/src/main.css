@@ -1,0 +1,61 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:wght@400;700&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Pretendard Variable', 'Pretendard', sans-serif;
+  --font-mono: 'Ubuntu Sans Mono', 'Roboto Mono', monospace;
+
+  --color-bg:       var(--bg);
+  --color-elevated: var(--elevated);
+  --color-surface:  var(--surface);
+  --color-line:     var(--line);
+  --color-line-em:  var(--line-em);
+  --color-label:    var(--label);
+  --color-label-n:  var(--label-n);
+  --color-label-a:  var(--label-a);
+  --color-label-d:  var(--label-d);
+  --color-primary:  var(--primary);
+  --color-pri-text: var(--pri-text);
+  --color-danger:   var(--danger);
+}
+
+:root {
+  --bg:        #16161e;
+  --elevated:  #1e1e28;
+  --surface:   #252530;
+  --line:      #2e2e3a;
+  --line-em:   #3a3a48;
+  --label:     #f0f0f2;
+  --label-n:   #bfbfcf;
+  --label-a:   #9494a6;
+  --label-d:   #7c7c8b;
+  --primary:   #d8f050;
+  --pri-text:  #1a1f08;
+  --danger:    #f05050;
+}
+
+:root.light {
+  --bg:        #f5f5f0;
+  --elevated:  #ffffff;
+  --surface:   #ebebeb;
+  --line:      #ddddd8;
+  --line-em:   #cccccc;
+  --label:     #111118;
+  --label-n:   #505060;
+  --label-a:   #6c6c76;
+  --label-d:   #909098;
+  --primary:   #5a7a00;
+  --pri-text:  #ffffff;
+  --danger:    #d03030;
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+
+body {
+  background-color: var(--bg);
+  color: var(--label);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
