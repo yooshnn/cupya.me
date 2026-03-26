@@ -16,8 +16,12 @@ export interface DetectResult {
   width: number;
 }
 
-export const RESULT_RATIO = {
-  aspectRatio: 2 / 3,
-  userInfoWidth: 0.441,
-  cardnameHeight: 0.128,
+/** pop'n music result screen layout constants (ratios relative to width) */
+export const POPN_RESULT_RATIO = {
+  /** Result area height = width × heightRatio */
+  heightRatio: 2 / 3,
+  /** result-only mode: ratio of the left panel (character + user info) to strip */
+  resultPanelOffset: 0.441,
+  /** privacy mode: ratio of the top section (card name row) to mask */
+  privacyMaskHeight: 0.128,
 } as const;
