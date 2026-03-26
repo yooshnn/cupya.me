@@ -1,5 +1,5 @@
 import type { DetectResult, ProcessMode } from './types';
-import { RESULT_RATIO } from './types';
+import { POPN_RESULT_RATIO } from './types';
 
 export async function crop(
   source: OffscreenCanvas,
@@ -7,14 +7,13 @@ export async function crop(
   mode: ProcessMode,
 ): Promise<OffscreenCanvas> {
   const { top, bottom, width } = result;
-  const resultHeight = bottom - top;
 
   const sx = mode === 'result-only'
-    ? Math.round(width * RESULT_RATIO.userInfoWidth)
+    ? Math.round(width * POPN_RESULT_RATIO.resultPanelOffset)
     : 0;
   const sy = top;
   const sw = width - sx;
-  const sh = resultHeight;
+  const sh = bottom - top;
 
   const canvas = new OffscreenCanvas(sw, sh);
   const ctx = canvas.getContext('2d');

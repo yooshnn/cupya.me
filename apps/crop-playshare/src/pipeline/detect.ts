@@ -1,9 +1,13 @@
 import type { DetectResult } from './types';
-import { RESULT_RATIO } from './types';
+import { POPN_RESULT_RATIO } from './types';
 
 const SAMPLE_COUNT = 16;
 const VARIANCE_THRESHOLD = 80;
-const calcMinContentRows = (height: number) => Math.round(height * 0.10);
+/**
+ * How many consecutive background rows must be seen before we consider
+ * the boundary found. Guards against single-row artifacts (thin UI lines, etc.).
+ */
+const BOUNDARY_ROWS = 4;
 
 function rowVariance(
   data: Uint8ClampedArray,
@@ -34,34 +38,41 @@ function isBackgroundRow(
   return rowVariance(data, y, width) < VARIANCE_THRESHOLD;
 }
 
+/**
+ * Detects the result area by scanning upward from the vertical center.
+ *
+ * Rationale: the result area always contains the center of the screen,
+ * so scanning from the middle upward is robust against phone UI elements
+ * (status bar, notch, bottom nav bar) that sit outside the result area.
+ *
+ * The scan stops as soon as it finds BOUNDARY_ROWS consecutive background
+ * rows, treating the row just below them as the top of the result area.
+ * If no boundary is found, top falls back to 0.
+ */
 export function detect(
   data: Uint8ClampedArray,
   width: number,
   height: number,
-): DetectResult | null {
-  let top = -1;
-  let consecutive = 0;
-  const MIN_CONTENT_ROWS = calcMinContentRows(height);
+): DetectResult {
+  const centerY = Math.floor(height / 2);
+  let consecutiveBg = 0;
+  let top = 0;
 
-  for (let y = 0; y < height; y++) {
-    if (!isBackgroundRow(data, y, width)) {
-      consecutive++;
-      if (consecutive >= MIN_CONTENT_ROWS && top === -1) {
-        top = y - MIN_CONTENT_ROWS + 1;
+  for (let y = centerY; y >= 0; y--) {
+    if (isBackgroundRow(data, y, width)) {
+      consecutiveBg++;
+      if (consecutiveBg >= BOUNDARY_ROWS) {
+        top = y + BOUNDARY_ROWS;
+        break;
       }
     }
     else {
-      consecutive = 0;
+      consecutiveBg = 0;
     }
-    if (top !== -1)
-      break;
   }
 
-  if (top === -1)
-    return null;
-
   const bottom = Math.min(
-    top + Math.round(width * RESULT_RATIO.aspectRatio),
+    top + Math.round(width * POPN_RESULT_RATIO.heightRatio),
     height,
   );
 
