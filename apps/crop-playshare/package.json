@@ -21,6 +21,7 @@
     "tailwind-merge": "catalog:"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "catalog:",
     "@cupya.me/eslint-config": "workspace:*",
     "@cupya.me/typescript-config": "workspace:*",
     "@tailwindcss/vite": "catalog:",
