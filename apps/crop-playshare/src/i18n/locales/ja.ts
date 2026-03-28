@@ -12,8 +12,6 @@ export default {
   result: {
     label: '結果',
     reset: 'リセット',
-    collapse: '閉じる',
-    expand: '開く',
     empty: 'スクショをアップロードしてください',
   },
   actions: {
