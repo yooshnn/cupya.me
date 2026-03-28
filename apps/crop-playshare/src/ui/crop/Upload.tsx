@@ -1,4 +1,5 @@
 import { CloudArrowUpIcon } from '@phosphor-icons/react';
+import { useCallback } from 'react';
 import { useLang } from '~/hooks/useLang';
 import { cn } from '~/lib/cn';
 
@@ -10,12 +11,12 @@ interface Props {
 export function Upload({ onFiles, className }: Props) {
   const { t } = useLang();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = [...e.target.files ?? []];
     if (files.length)
       onFiles(files);
     e.target.value = '';
-  };
+  }, [onFiles]);
 
   return (
     <label
