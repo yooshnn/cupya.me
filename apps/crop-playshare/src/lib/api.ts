@@ -2,8 +2,12 @@ export const api = {
   count: {
     get: (): Promise<number | null> =>
       fetch('/api/count')
-        .then(r => r.json<{ count: number }>())
-        .then(d => d.count)
+        .then(r => {
+          if (!r.ok)
+            throw new Error(`HTTP ${r.status}`);
+          return r.json<{ count: number }>();
+        })
+        .then(d => (typeof d.count === 'number' ? d.count : null))
         .catch(() => null),
 
     increment: (count: number): void => {
