@@ -45,14 +45,12 @@ export function useImages() {
 
   const reprocess = useCallback(
     (mode: ProcessMode) => {
+      const reset = entries.map(e => ({ ...e, status: 'processing' as const, result: undefined }));
       setOption(mode);
-      setEntries((prev) => {
-        const reset = prev.map(e => ({ ...e, status: 'processing' as const, result: undefined }));
-        reset.forEach(e => processEntry(e, mode));
-        return reset;
-      });
+      setEntries(reset);
+      reset.forEach(e => processEntry(e, mode));
     },
-    [processEntry],
+    [entries, processEntry],
   );
 
   const remove = useCallback((id: string) => {
