@@ -1,18 +1,18 @@
-import { Suspense, use } from 'react';
+import { Suspense, use, useState } from 'react';
 import { useLang } from '~/hooks/useLang';
 import { api } from '~/lib/api';
 
-const countPromise = api.count.get();
-
 export function CountDisplay() {
+  const [countPromise] = useState(() => api.count.get());
+
   return (
     <Suspense fallback={<Fallback />}>
-      <Count />
+      <Count countPromise={countPromise} />
     </Suspense>
   );
 }
 
-function Count() {
+function Count({ countPromise }: { countPromise: Promise<number | null> }) {
   const count = use(countPromise);
   const { t } = useLang();
 
