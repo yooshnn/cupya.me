@@ -8,6 +8,7 @@
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
+    "test": "vitest run",
     "release": "COMMIT_SHA=$(git rev-parse --short HEAD) pnpm run build && wrangler pages deploy"
   },
   "dependencies": {
@@ -33,6 +34,7 @@
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
+    "vitest": "catalog:",
     "wrangler": "catalog:"
   }
 }

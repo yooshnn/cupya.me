@@ -1,4 +1,4 @@
-import { addCount, getCount } from '../../src/server/count';
+import { addCount, getCount, sanitizeCount } from '../../src/server/count';
 
 interface Env {
   CACHE: KVNamespace;
@@ -10,7 +10,10 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
 };
 
 export const onRequestPost: PagesFunction<Env> = async ({ env, request }) => {
-  const { count } = await request.json<{ count: number }>();
-  await addCount(env.CACHE, Math.min(Math.max(Math.floor(count), 0), 20));
+  const body = await request.json<{ count?: unknown }>();
+  const safe = sanitizeCount(body?.count);
+  if (safe === null)
+    return new Response(null, { status: 400 });
+  await addCount(env.CACHE, safe);
   return new Response(null, { status: 204 });
 };
