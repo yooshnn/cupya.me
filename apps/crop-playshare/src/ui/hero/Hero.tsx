@@ -1,17 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useLang } from '~/hooks/useLang';
+import { CountDisplay } from './CountDisplay';
 
 declare const __COMMIT_SHA__: string;
 
 export function Hero() {
-  const [isCropping, setIsCropping] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsCropping(true);
-    }, 250);
-
-    return () => clearTimeout(timer);
-  }, []);
+  const { t } = useLang();
 
   return (
     <div className="relative flex flex-col items-center w-full mx-auto fade-up p-8 sm:p-12 pb-4 sm:pb-6">
@@ -25,41 +19,58 @@ export function Hero() {
         />
 
         {/* Crop Overlay UI */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top: isCropping ? '0px' : '-48px',
-            right: isCropping ? '0px' : '-48px',
-            bottom: isCropping ? '0px' : '-48px',
-            left: isCropping ? '0px' : '-48px',
-            opacity: isCropping ? 1 : 0,
-            transition: `
-              opacity 0.4s ease-out,
-              top 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
-              right 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s,
-              bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s,
-              left 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1.1s
-            `,
-          }}
-        >
-          <div className="absolute top-1/3 left-0 w-full border-t border-white/50"></div>
-          <div className="absolute top-2/3 left-0 w-full border-t border-white/50"></div>
-          <div className="absolute left-1/3 top-0 h-full border-l border-white/50"></div>
-          <div className="absolute left-2/3 top-0 h-full border-l border-white/50"></div>
-
-          <div className="absolute -top-0.5 -left-0.5 w-4 h-4 border-t-4 border-l-4 border-white"></div>
-          <div className="absolute -top-0.5 -right-0.5 w-4 h-4 border-t-4 border-r-4 border-white"></div>
-          <div className="absolute -bottom-0.5 -left-0.5 w-4 h-4 border-b-4 border-l-4 border-white"></div>
-          <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 border-b-4 border-r-4 border-white"></div>
-        </div>
+        <CropOverlay />
       </div>
 
-      <p className="font-mono mt-6 text-primary text-sm font-medium">Playshare auto-crop for pop'n music</p>
+      <div className="flex flex-col items-center gap-1 mt-6">
+        <p className="font-mono text-primary text-xs font-medium">{t('hero.tagline')}</p>
+        <CountDisplay />
+      </div>
 
       <span className="font-mono mt-4 text-line-em text-xs absolute -top-1 right-4">
-        v.
-        {__COMMIT_SHA__}
+        {`v.${__COMMIT_SHA__}`}
       </span>
+    </div>
+  );
+}
+
+function CropOverlay() {
+  const [isCropping, setIsCropping] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsCropping(true);
+    }, 250);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div
+      className="absolute pointer-events-none"
+      style={{
+        top: isCropping ? '0px' : '-48px',
+        right: isCropping ? '0px' : '-48px',
+        bottom: isCropping ? '0px' : '-48px',
+        left: isCropping ? '0px' : '-48px',
+        opacity: isCropping ? 1 : 0,
+        transition: `
+          opacity 0.4s ease-out,
+          top 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+          right 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s,
+          bottom 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s,
+          left 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1.1s
+        `,
+      }}
+    >
+      <div className="absolute top-1/3 left-0 w-full border-t border-white/50"></div>
+      <div className="absolute top-2/3 left-0 w-full border-t border-white/50"></div>
+      <div className="absolute left-1/3 top-0 h-full border-l border-white/50"></div>
+      <div className="absolute left-2/3 top-0 h-full border-l border-white/50"></div>
+
+      <div className="absolute -top-0.5 -left-0.5 w-4 h-4 border-t-4 border-l-4 border-white"></div>
+      <div className="absolute -top-0.5 -right-0.5 w-4 h-4 border-t-4 border-r-4 border-white"></div>
+      <div className="absolute -bottom-0.5 -left-0.5 w-4 h-4 border-b-4 border-l-4 border-white"></div>
+      <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 border-b-4 border-r-4 border-white"></div>
     </div>
   );
 }

@@ -20,4 +20,8 @@ export default {
     share: '공유하기',
     downloadAll: '전체 다운로드',
   },
+  hero: {
+    tagline: '팝픈 플레이셰어 자르기 툴',
+    processedLabel: '장 처리됨',
+  },
 } as const;
