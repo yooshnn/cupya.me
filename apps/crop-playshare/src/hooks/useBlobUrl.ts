@@ -1,17 +1,20 @@
-import { useEffect, useMemo } from 'react';
+/* eslint-disable react-hooks-extra/no-direct-set-state-in-use-effect */
+/* Intentional: syncing state with an external resource (Object URL registry) that requires cleanup via revokeObjectURL. */
+
+import { useEffect, useState } from 'react';
 
 export function useBlobUrl(blob: Blob | undefined): string | null {
-  const url = useMemo(
-    () => (blob ? URL.createObjectURL(blob) : null),
-    [blob],
-  );
+  const [url, setUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    return () => {
-      if (url)
-        URL.revokeObjectURL(url);
-    };
-  }, [url]);
+    if (!blob) {
+      setUrl(null);
+      return;
+    }
+    const u = URL.createObjectURL(blob);
+    setUrl(u);
+    return () => URL.revokeObjectURL(u);
+  }, [blob]);
 
   return url;
 }
