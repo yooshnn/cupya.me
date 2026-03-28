@@ -12,12 +12,14 @@ export default {
   result: {
     label: '결과',
     reset: '초기화',
-    collapse: '접기',
-    expand: '펼치기',
     empty: '스크린샷을 업로드 해주세요',
   },
   actions: {
     share: '공유하기',
     downloadAll: '전체 다운로드',
+  },
+  hero: {
+    tagline: '팝픈 플레이셰어 자르기 툴',
+    processedLabel: '장 처리됨',
   },
 } as const;

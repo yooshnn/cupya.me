@@ -1,22 +1,8 @@
 import type { ImageEntry, ProcessMode } from '../pipeline/types';
 import { useCallback, useState } from 'react';
+import { downloadAll, share } from '~/lib/export';
+import { createEntry } from '~/lib/imageEntry';
 import { process } from '../pipeline';
-
-function generateId() {
-  let result = '';
-  while (result.length < 16) {
-    result += Math.random().toString(36).substring(2);
-  }
-  return result.substring(0, 16);
-}
-
-function createEntry(file: File): ImageEntry {
-  return {
-    id: generateId(),
-    original: file,
-    status: 'pending',
-  };
-}
 
 export function useImages() {
   const [entries, setEntries] = useState<ImageEntry[]>([]);
@@ -59,14 +45,12 @@ export function useImages() {
 
   const reprocess = useCallback(
     (mode: ProcessMode) => {
+      const reset = entries.map(e => ({ ...e, status: 'processing' as const, result: undefined }));
       setOption(mode);
-      setEntries((prev) => {
-        const reset = prev.map(e => ({ ...e, status: 'processing' as const, result: undefined }));
-        reset.forEach(e => processEntry(e, mode));
-        return reset;
-      });
+      setEntries(reset);
+      reset.forEach(e => processEntry(e, mode));
     },
-    [processEntry],
+    [entries, processEntry],
   );
 
   const remove = useCallback((id: string) => {
@@ -75,35 +59,8 @@ export function useImages() {
 
   const reset = useCallback(() => setEntries([]), []);
 
-  const downloadAll = useCallback(() => {
-    const done = entries.filter(e => e.status === 'complete' && e.result);
-    done.forEach((entry) => {
-      const url = URL.createObjectURL(entry.result!);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${entry.id}.webp`;
-      a.click();
-      URL.revokeObjectURL(url);
-    });
-  }, [entries]);
-
-  const share = useCallback(async () => {
-    const done = entries.filter(e => e.status === 'complete' && e.result);
-    if (done.length === 0)
-      return;
-
-    const files = done.map(
-      (entry, i) =>
-        new File([entry.result!], `result_${i + 1}.webp`, { type: 'image/webp' }),
-    );
-
-    if (!navigator.canShare?.({ files })) {
-      downloadAll();
-      return;
-    }
-
-    await navigator.share({ files });
-  }, [entries, downloadAll]);
+  const handleDownloadAll = useCallback(() => downloadAll(entries), [entries]);
+  const handleShare = useCallback(() => share(entries), [entries]);
 
   return {
     entries,
@@ -112,7 +69,7 @@ export function useImages() {
     add,
     remove,
     reset,
-    downloadAll,
-    share,
+    downloadAll: handleDownloadAll,
+    share: handleShare,
   } as const;
 }

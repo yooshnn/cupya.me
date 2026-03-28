@@ -1,36 +1,12 @@
 import type { ProcessMode } from '~/pipeline/types';
 import { useLang } from '~/hooks/useLang';
 import { cn } from '~/lib/cn';
+import { FullIcon, PrivacyIcon, ResultOnlyIcon } from './OptionIcons';
 
-const OPTIONS: { value: ProcessMode; icon: React.ReactNode }[] = [
-  {
-    value: 'full',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-        <rect x="1" y="1" width="14" height="14" rx="1" />
-      </svg>
-    ),
-  },
-  {
-    value: 'privacy',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-        <rect x="1" y="1" width="5" height="5" rx="1" opacity=".3" />
-        <rect x="1" y="8" width="5" height="7" rx="1" />
-        <rect x="8" y="1" width="7" height="14" rx="1" />
-      </svg>
-    ),
-  },
-  {
-    value: 'result-only',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-        <rect x="1" y="1" width="5" height="5" rx="1" opacity=".3" />
-        <rect x="1" y="8" width="5" height="7" rx="1" opacity=".3" />
-        <rect x="8" y="1" width="7" height="14" rx="1" />
-      </svg>
-    ),
-  },
+const OPTIONS: { value: ProcessMode; Icon: React.FC }[] = [
+  { value: 'full', Icon: FullIcon },
+  { value: 'privacy', Icon: PrivacyIcon },
+  { value: 'result-only', Icon: ResultOnlyIcon },
 ];
 
 interface Props {
@@ -56,20 +32,20 @@ export function Options({ value, onChange }: Props) {
         </span>
       </div>
       <div className="grid grid-rows-3 gap-2">
-        {OPTIONS.map(opt => (
+        {OPTIONS.map(({ value: optValue, Icon }) => (
           <button
-            key={opt.value}
-            onClick={() => onChange(opt.value)}
+            key={optValue}
+            onClick={() => onChange(optValue)}
             className={cn(
               'flex items-center gap-2 px-3 py-3 rounded-lg border border-line transition-all',
               'text-[13px] font-medium',
-              opt.value === value
+              optValue === value
                 ? 'bg-primary/10 border-primary/50 text-primary'
                 : 'text-label-a hover:text-label',
             )}
           >
-            {opt.icon}
-            <span>{labels[opt.value]}</span>
+            <Icon />
+            <span>{labels[optValue]}</span>
           </button>
         ))}
       </div>

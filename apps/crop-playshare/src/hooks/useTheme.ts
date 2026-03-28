@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { persist } from '../lib/persist';
 
 type Theme = 'dark' | 'light';
@@ -20,7 +20,7 @@ export function useTheme() {
     persist.set('theme', theme);
   }, [theme]);
 
-  const toggle = () => setTheme(t => (t === 'dark' ? 'light' : 'dark'));
+  const toggle = useCallback(() => setTheme(t => (t === 'dark' ? 'light' : 'dark')), []);
 
   return { theme, toggle } as const;
 }

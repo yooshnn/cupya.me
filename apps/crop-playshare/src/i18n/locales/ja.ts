@@ -12,12 +12,14 @@ export default {
   result: {
     label: '結果',
     reset: 'リセット',
-    collapse: '閉じる',
-    expand: '開く',
     empty: 'スクショをアップロードしてください',
   },
   actions: {
     share: 'シェアする',
     downloadAll: 'まとめてDL',
+  },
+  hero: {
+    tagline: 'ポップンのプレイシェア切り抜きツール',
+    processedLabel: '枚処理済み',
   },
 } as const;

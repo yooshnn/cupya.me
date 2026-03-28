@@ -1,32 +1,19 @@
-import type { Ref } from 'react';
 import type { ResultCardProps } from './result.types';
 import type { ImageEntry } from '~/pipeline/types';
 import { DownloadIcon, TrashIcon } from '@phosphor-icons/react';
-import { useEffect, useRef } from 'react';
+import { useBlobUrl } from '~/hooks/useBlobUrl';
 
 export function ResultCard({ entry, onRemove }: ResultCardProps) {
-  const imgRef = useRef<HTMLImageElement>(null);
-  const linkRef = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    if (!entry.result)
-      return;
-    const url = URL.createObjectURL(entry.result);
-    if (imgRef.current)
-      imgRef.current.src = url;
-    if (linkRef.current)
-      linkRef.current.href = url;
-    return () => URL.revokeObjectURL(url);
-  }, [entry.result]);
+  const url = useBlobUrl(entry.result);
 
   return (
     <div className="rounded-xl overflow-hidden border border-line bg-elevated relative">
-      <ResultPreview entry={entry} imgRef={imgRef} />
+      <ResultPreview entry={entry} url={url} />
       <div className="absolute top-2 right-2 flex gap-1">
-        {entry.result !== undefined && (
+        {url !== null && (
           <a
-            ref={linkRef}
-            download={`${entry.id}.png`}
+            href={url}
+            download={`${entry.id}.webp`}
             className="w-7 h-7 rounded-md bg-bg/85 border border-line flex items-center justify-center"
           >
             <DownloadIcon />
@@ -43,15 +30,9 @@ export function ResultCard({ entry, onRemove }: ResultCardProps) {
   );
 }
 
-function ResultPreview({
-  entry,
-  imgRef,
-}: {
-  entry: ImageEntry;
-  imgRef: Ref<HTMLImageElement>;
-}) {
-  if (entry.result) {
-    return <img ref={imgRef} alt="" className="w-full block" />;
+function ResultPreview({ entry, url }: { entry: ImageEntry; url: string | null }) {
+  if (url !== null) {
+    return <img src={url} alt="" className="w-full block" />;
   }
 
   return (

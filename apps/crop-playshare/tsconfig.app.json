@@ -8,6 +8,10 @@
     "paths": {
       "~/*": ["./src/*"]
     },
+    "types": [
+      "vite/client",
+      "@cloudflare/workers-types"
+    ],
     "erasableSyntaxOnly": true
   },
   "include": ["src"]

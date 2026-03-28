@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
-    "release": "COMMIT_SHA=$(git rev-parse --short HEAD) pnpm run build && wrangler pages deploy dist --branch=main"
+    "test": "vitest run",
+    "release": "COMMIT_SHA=$(git rev-parse --short HEAD) pnpm run build && wrangler pages deploy"
   },
   "dependencies": {
     "@phosphor-icons/react": "catalog:",
@@ -21,6 +22,7 @@
     "tailwind-merge": "catalog:"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "catalog:",
     "@cupya.me/eslint-config": "workspace:*",
     "@cupya.me/typescript-config": "workspace:*",
     "@tailwindcss/vite": "catalog:",
@@ -32,6 +34,7 @@
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
+    "vitest": "catalog:",
     "wrangler": "catalog:"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "crop-playshare",
+  "compatibility_date": "2026-03-20",
+  "pages_build_output_dir": "./dist",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",
+      "id": "fd82c1b92dcd440cb2bb6ab8e9da32f6"
+    }
+  ]
+}

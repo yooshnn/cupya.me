@@ -12,28 +12,26 @@ const VARIANCE_THRESHOLD = 80;
 // Filters out noise like thin UI separator lines.
 const BOUNDARY_ROWS = 16;
 
-// Reusable buffer — avoids per-row array allocation during scanning.
-const brightnessBuffer = new Float32Array(SAMPLE_COUNT);
-
 function rowVariance(
   data: Uint8ClampedArray,
   y: number,
   width: number,
 ): number {
   const step = Math.floor(width / SAMPLE_COUNT);
+  const brightness = new Float32Array(SAMPLE_COUNT);
   let sum = 0;
 
   for (let i = 0; i < SAMPLE_COUNT; i++) {
     const idx = (y * width + i * step) * 4;
     const b = (data[idx]! + data[idx + 1]! + data[idx + 2]!) / 3;
-    brightnessBuffer[i] = b;
+    brightness[i] = b;
     sum += b;
   }
 
   const mean = sum / SAMPLE_COUNT;
   let variance = 0;
   for (let i = 0; i < SAMPLE_COUNT; i++) {
-    const diff = brightnessBuffer[i]! - mean;
+    const diff = brightness[i]! - mean;
     variance += diff * diff;
   }
   return variance / SAMPLE_COUNT;
