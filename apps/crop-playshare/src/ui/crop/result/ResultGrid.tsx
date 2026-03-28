@@ -3,17 +3,11 @@ import { useLang } from '~/hooks/useLang';
 import { ResultCard } from './ResultCard';
 
 export function ResultGrid({ entries, onRemove, onReset }: ResultGridProps) {
-  const { t } = useLang();
-
   return (
     <div className="space-y-3">
-      <ResultGridHeader
-        count={entries.length}
-        onReset={onReset}
-        t={t}
-      />
+      <ResultGridHeader count={entries.length} onReset={onReset} />
       {entries.length === 0
-        ? <ResultGridEmpty t={t} />
+        ? <ResultGridEmpty />
         : (
             <div className="grid grid-cols-2 gap-3">
               {entries.map(entry => (
@@ -25,15 +19,9 @@ export function ResultGrid({ entries, onRemove, onReset }: ResultGridProps) {
   );
 }
 
-function ResultGridHeader({
-  count,
-  onReset,
-  t,
-}: {
-  count: number;
-  onReset: () => void;
-  t: (key: string) => string;
-}) {
+function ResultGridHeader({ count, onReset }: { count: number; onReset: () => void }) {
+  const { t } = useLang();
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2 py-1">
@@ -57,7 +45,9 @@ function ResultGridHeader({
   );
 }
 
-function ResultGridEmpty({ t }: { t: (key: string) => string }) {
+function ResultGridEmpty() {
+  const { t } = useLang();
+
   return (
     <div className="flex items-center justify-center py-4">
       <span className="text-xs text-label-d text-center leading-relaxed">
