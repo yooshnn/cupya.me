@@ -1,5 +1,6 @@
 import type { ImageEntry, ProcessMode } from '../pipeline/types';
 import { useCallback, useState } from 'react';
+import { api } from '~/lib/api';
 import { process } from '../pipeline';
 
 function generateId() {
@@ -53,6 +54,7 @@ export function useImages() {
       const newEntries = files.map(createEntry);
       setEntries(prev => [...prev, ...newEntries]);
       newEntries.forEach(entry => processEntry(entry, option));
+      api.count.increment(files.length);
     },
     [option, processEntry],
   );
