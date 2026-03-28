@@ -11,6 +11,6 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
 
 export const onRequestPost: PagesFunction<Env> = async ({ env, request }) => {
   const { count } = await request.json<{ count: number }>();
-  await addCount(env.CACHE, count);
+  await addCount(env.CACHE, Math.min(Math.max(Math.floor(count), 0), 20));
   return new Response(null, { status: 204 });
 };
