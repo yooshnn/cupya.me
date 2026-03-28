@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { useImages } from '~/hooks/useImages';
 import { api } from '~/lib/api';
 import { ActionBar } from '~/ui/crop/ActionBar';
@@ -10,10 +11,10 @@ import { Hero } from './ui/hero/Hero';
 export default function App() {
   const { entries, option, setOption, add, remove, reset, downloadAll, share } = useImages();
 
-  const handleFiles = (files: File[]) => {
+  const handleFiles = useCallback((files: File[]) => {
     add(files);
     api.count.increment(files.length);
-  };
+  }, [add]);
 
   return (
     <div className="w-full max-w-sm mx-auto bg-bg min-h-svh flex flex-col">

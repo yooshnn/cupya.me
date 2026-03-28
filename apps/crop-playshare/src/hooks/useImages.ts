@@ -59,6 +59,9 @@ export function useImages() {
 
   const reset = useCallback(() => setEntries([]), []);
 
+  const handleDownloadAll = useCallback(() => downloadAll(entries), [entries]);
+  const handleShare = useCallback(() => share(entries), [entries]);
+
   return {
     entries,
     option,
@@ -66,7 +69,7 @@ export function useImages() {
     add,
     remove,
     reset,
-    downloadAll: () => downloadAll(entries),
-    share: () => share(entries),
+    downloadAll: handleDownloadAll,
+    share: handleShare,
   } as const;
 }
