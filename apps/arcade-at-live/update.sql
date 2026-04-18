@@ -1,0 +1,25 @@
+
+UPDATE al_stream_rules SET game_id=1, keyword='[CHUNITHM] [No.1', machine_label='1', priority=0 WHERE id=1;
+UPDATE al_stream_rules SET game_id=1, keyword='[CHUNITHM] [No.4', machine_label='4', priority=0 WHERE id=2;
+UPDATE al_stream_rules SET game_id=2, keyword='[SDVX] [VM - No.1', machine_label='1', priority=0 WHERE id=3;
+UPDATE al_stream_rules SET game_id=2, keyword='[SDVX] [VM - No.2', machine_label='2', priority=0 WHERE id=4;
+UPDATE al_stream_rules SET game_id=2, keyword='[SDVX] [VM - No.3', machine_label='3', priority=0 WHERE id=5;
+UPDATE al_stream_rules SET game_id=2, keyword='[SDVX] [VM - No.4', machine_label='4', priority=0 WHERE id=6;
+UPDATE al_stream_rules SET game_id=2, keyword='[SDVX] [VM - No.7', machine_label='7', priority=0 WHERE id=7;
+UPDATE al_stream_rules SET game_id=2, keyword='[SDVX] [VM - No.8', machine_label='8', priority=0 WHERE id=8;
+UPDATE al_stream_rules SET game_id=2, keyword='[SDVX] [VM - No.9', machine_label='9', priority=0 WHERE id=9;
+UPDATE al_stream_rules SET game_id=2, keyword='[SDVX] [VM - No.10', machine_label='10', priority=0 WHERE id=10;
+UPDATE al_stream_rules SET game_id=3, keyword='[IIDX] [LM - No.1', machine_label='LM 1', priority=0 WHERE id=11;
+UPDATE al_stream_rules SET game_id=3, keyword='[IIDX] [LM - No.2', machine_label='LM 2', priority=0 WHERE id=12;
+UPDATE al_stream_rules SET game_id=3, keyword='[IIDX] [SM - No.1', machine_label='1', priority=0 WHERE id=13;
+UPDATE al_stream_rules SET game_id=4, keyword='[maimai DX] [No.1', machine_label='1', priority=0 WHERE id=14;
+UPDATE al_stream_rules SET game_id=4, keyword='[maimai DX] [No.3', machine_label='3', priority=0 WHERE id=15;
+UPDATE al_stream_rules SET game_id=4, keyword='[maimai DX] [No.4', machine_label='4', priority=0 WHERE id=16;
+UPDATE al_stream_rules SET game_id=4, keyword='[maimai DX] [No.6', machine_label='6', priority=0 WHERE id=17;
+UPDATE al_stream_rules SET game_id=4, keyword='[maimai DX] [No.7', machine_label='7', priority=0 WHERE id=18;
+UPDATE al_stream_rules SET game_id=4, keyword='[maimai DX] [No.8', machine_label='8', priority=0 WHERE id=19;
+UPDATE al_stream_rules SET game_id=7, keyword='[DDR] [No.1-A]', machine_label='1', priority=0 WHERE id=23;
+UPDATE al_stream_rules SET game_id=11, keyword='[pop''n PPM] [No.1', machine_label='1', priority=0 WHERE id=27;
+UPDATE al_stream_rules SET game_id=11, keyword='[pop''n PPM] [No.2', machine_label='2', priority=0 WHERE id=28;
+UPDATE al_stream_rules SET game_id=11, keyword='[pop''n PPM] [No.3', machine_label='3', priority=0 WHERE id=29;
+UPDATE al_stream_rules SET game_id=11, keyword='[pop''n PPM] [No.4', machine_label='4', priority=0 WHERE id=30;
