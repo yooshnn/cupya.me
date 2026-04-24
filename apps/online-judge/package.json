@@ -1,0 +1,52 @@
+{
+	"name": "@cupya.me/online-judge",
+	"version": "0.0.0",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"cf-typegen": "wrangler types",
+		"artifacts:link": "node scripts/link-local-artifacts.mjs",
+		"artifacts:unlink": "node scripts/unlink-local-artifacts.mjs",
+		"build:clean": "node scripts/clean-build.mjs",
+		"content:sync": "node scripts/sync-content.mjs",
+		"vendor:runtime": "node scripts/vendor-runtime.mjs",
+		"dev": "pnpm run content:sync && pnpm run artifacts:link && waku dev",
+		"build": "pnpm run content:sync && pnpm run artifacts:unlink && pnpm run build:clean && waku build && node scripts/verify-build.mjs",
+		"start": "wrangler dev",
+		"deploy": "pnpm run build && wrangler deploy",
+		"preview": "NODE_ENV=production pnpm run build && wrangler dev",
+		"typecheck": "pnpm run cf-typegen && pnpm run content:sync && tsc --noEmit",
+		"lint": "eslint ."
+	},
+	"dependencies": {
+		"@cupya.me/wasm-judge-runtime-browser": "file:vendor/wasm-judge-runtime/cupya.me-wasm-judge-runtime-browser-0.0.0.tgz",
+		"@cupya.me/wasm-judge-runtime-core": "file:vendor/wasm-judge-runtime/cupya.me-wasm-judge-runtime-core-0.0.0.tgz",
+		"@cupya.me/wasm-judge-runtime-cpp": "file:vendor/wasm-judge-runtime/cupya.me-wasm-judge-runtime-cpp-0.0.0.tgz",
+		"hono": "^4.12.12",
+		"katex": "^0.16.25",
+		"react": "~19.2.5",
+		"react-dom": "~19.2.5",
+		"react-markdown": "^10.1.0",
+		"react-server-dom-webpack": "~19.2.5",
+		"rehype-katex": "^7.0.1",
+		"remark-gfm": "^4.0.1",
+		"remark-math": "^6.0.0",
+		"waku": "1.0.0-alpha.7"
+	},
+	"devDependencies": {
+		"@cloudflare/vite-plugin": "^1.31.1",
+		"@cupya.me/eslint-config": "workspace:*",
+		"@rolldown/plugin-babel": "^0.2.2",
+		"@tailwindcss/vite": "4.2.2",
+		"@types/node": "^25.5.2",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"@vitejs/plugin-react": "^6.0.1",
+		"babel-plugin-react-compiler": "^1.0.0",
+		"eslint": "catalog:",
+		"miniflare": "^4.20260405.0",
+		"tailwindcss": "^4.2.2",
+		"typescript": "^6.0.2",
+		"wrangler": "^4.84.1"
+	}
+}

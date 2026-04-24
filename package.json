@@ -12,6 +12,13 @@
     "test": "turbo test",
     "typecheck": "turbo typecheck"
   },
+  "pnpm": {
+    "overrides": {
+      "@cupya.me/wasm-judge-runtime-browser": "file:apps/online-judge/vendor/wasm-judge-runtime/cupya.me-wasm-judge-runtime-browser-0.0.0.tgz",
+      "@cupya.me/wasm-judge-runtime-core": "file:apps/online-judge/vendor/wasm-judge-runtime/cupya.me-wasm-judge-runtime-core-0.0.0.tgz",
+      "@cupya.me/wasm-judge-runtime-cpp": "file:apps/online-judge/vendor/wasm-judge-runtime/cupya.me-wasm-judge-runtime-cpp-0.0.0.tgz"
+    }
+  },
   "devDependencies": {
     "turbo": "catalog:"
   }
