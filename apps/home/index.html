@@ -4,8 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>cupya.me</title>
+
   <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Sans+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg:       #16161e;
@@ -20,6 +22,7 @@
       --primary:  #d8f050;
       --pri-text: #1a1f08;
     }
+
     :root.light {
       --bg:       #f5f5f0;
       --elevated: #ffffff;
@@ -34,24 +37,29 @@
       --pri-text: #ffffff;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
     body {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
       background: var(--bg);
       color: var(--label);
       font-family: 'Pretendard Variable', 'Pretendard', sans-serif;
       -webkit-font-smoothing: antialiased;
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
     }
 
     main {
       flex: 1;
-      padding: 3.5rem 1.5rem 2rem;
-      max-width: 560px;
       width: 100%;
+      max-width: 560px;
       margin: 0 auto;
+      padding: 3.5rem 1.5rem 2rem;
     }
 
     .header {
@@ -62,17 +70,20 @@
       gap: 1rem;
     }
 
-    .header-left { display: flex; flex-direction: column; gap: 0.35rem; }
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
 
     .wordmark {
       font-family: 'Ubuntu Sans Mono', monospace;
       font-size: 18px;
       font-weight: 700;
-      color: var(--label);
+      color: var(--primary);
       letter-spacing: -0.5px;
       line-height: 1;
     }
-    .wordmark { color: var(--primary); }
 
     .tagline {
       font-family: 'Ubuntu Sans Mono', monospace;
@@ -83,30 +94,36 @@
     }
 
     .theme-btn {
-      background: none;
+      margin-top: 2px;
+      padding: 3px 8px;
       border: 0.5px solid var(--line-em);
+      border-radius: 3px;
+      background: none;
+      color: var(--label-d);
       cursor: pointer;
       font-family: 'Ubuntu Sans Mono', monospace;
       font-size: 10px;
-      color: var(--label-d);
-      padding: 3px 8px;
-      border-radius: 3px;
-      transition: color 0.15s, border-color 0.15s;
       letter-spacing: 0.04em;
-      margin-top: 2px;
+      transition: color 0.15s, border-color 0.15s;
     }
-    .theme-btn:hover { color: var(--label-a); border-color: var(--label-d); }
+
+    .theme-btn:hover {
+      color: var(--label-a);
+      border-color: var(--label-d);
+    }
 
     .section-label {
+      margin-bottom: 0.6rem;
+      color: var(--label-d);
       font-family: 'Ubuntu Sans Mono', monospace;
       font-size: 10px;
-      color: var(--label-d);
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      margin-bottom: 0.6rem;
     }
 
-    .app-list { list-style: none; }
+    .app-list {
+      list-style: none;
+    }
 
     .app-item {
       border-top: 0.5px solid var(--line);
@@ -114,140 +131,225 @@
       transform: translateY(6px);
       animation: fadeUp 0.3s ease forwards;
     }
-    .app-item:nth-child(1) { animation-delay: 0.05s; }
-    .app-item:nth-child(2) { animation-delay: 0.12s; }
-    .app-item:nth-child(3) { animation-delay: 0.19s; }
-    .app-item:nth-child(4) { animation-delay: 0.26s; }
-    .app-item:last-child { border-bottom: 0.5px solid var(--line); }
+
+    .app-item:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+
+    .app-item:nth-child(2) {
+      animation-delay: 0.12s;
+    }
+
+    .app-item:last-child {
+      border-bottom: 0.5px solid var(--line);
+    }
 
     @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .app-link {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 1rem;
+      margin: 0 -0.5rem;
+      padding: 0.95rem 0.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.12s;
+    }
+
+    .app-main {
+      min-width: 0;
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
-      padding: 0.8rem 0.5rem;
-      text-decoration: none;
-      border-radius: 4px;
-      margin: 0 -0.5rem;
-      transition: background 0.12s;
-      position: relative;
-    }
-    .app-link::after {
-      content: '↗';
-      position: absolute;
-      right: 0.5rem;
-      top: 50%;
-      transform: translateY(-50%) scale(0.8);
-      font-size: 13px;
-      color: var(--label-d);
-      opacity: 0;
-      transition: opacity 0.12s, transform 0.12s;
-    }
-    .app-link:hover { background: var(--surface); }
-    .app-link:hover::after { opacity: 1; transform: translateY(-50%) scale(1); }
-    .app-link:hover .app-url { color: var(--primary); }
-
-    .app-row-top {
-      display: flex;
-      align-items: baseline;
-      gap: 0.6rem;
+      gap: 0.22rem;
     }
 
     .app-name {
-      font-size: 13px;
-      font-weight: 500;
+      width: fit-content;
       color: var(--label);
-      letter-spacing: -0.2px;
-    }
-
-    .app-url {
       font-family: 'Ubuntu Sans Mono', monospace;
-      font-size: 11px;
-      color: var(--label-d);
-      transition: color 0.12s;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      transition: color 0.12s, transform 0.12s;
     }
 
     .app-desc {
-      font-size: 12px;
+      width: fit-content;
       color: var(--label-a);
+      font-size: 12px;
       line-height: 1.5;
-      padding-right: 1.5rem;
+      transition: color 0.12s, transform 0.12s;
+    }
+
+    .app-url {
+      color: var(--label-d);
+      font-family: 'Ubuntu Sans Mono', monospace;
+      font-size: 11px;
+      white-space: nowrap;
+      transition: color 0.12s, transform 0.12s;
+    }
+
+    .app-url::after {
+      content: ' ↗';
+      font-size: 10px;
+      opacity: 0;
+      transition: opacity 0.12s;
+    }
+
+    .app-link:hover .app-name {
+      color: var(--primary);
+      transform: translateX(-2px);
+    }
+
+    .app-link:hover .app-desc {
+      color: var(--label-n);
+      transform: translateX(-1px);
+    }
+
+    .app-link:hover .app-url {
+      color: var(--primary);
+      transform: translateX(2px);
+    }
+
+    .app-link:hover .app-url::after {
+      opacity: 1;
     }
 
     footer {
-      padding: 1.25rem 1.5rem;
-      max-width: 560px;
       width: 100%;
+      max-width: 560px;
       margin: 0 auto;
+      padding: 1.25rem 1.5rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       border-top: 0.5px solid var(--line);
     }
 
-    .footer-nick {
-      font-family: 'Ubuntu Sans Mono', monospace;
-      font-size: 11px;
-      color: var(--label-d);
-      letter-spacing: 0.02em;
-      display: flex;
+    .mail-link {
+      display: inline-flex;
       align-items: baseline;
-      gap: 0.5rem;
-    }
-    .footer-nick .tilde { color: var(--primary); }
-    .footer-nick a {
+      gap: 0.45rem;
       color: var(--label-d);
       text-decoration: none;
-      transition: color 0.12s;
-    }
-    .footer-nick a:hover { color: var(--label-a); }
-
-    .footer-count {
       font-family: 'Ubuntu Sans Mono', monospace;
       font-size: 11px;
+      letter-spacing: 0.02em;
+      transition: color 0.12s;
+    }
+
+    .mail-link:hover {
+      color: var(--primary);
+    }
+
+    .mail-label {
       color: var(--label-d);
+      font-style: italic;
+    }
+
+    .mail-address {
+      color: inherit;
+    }
+
+    .mail-link::after {
+      content: '↗';
+      color: inherit;
+      font-size: 10px;
+      opacity: 0;
+      transform: translateX(-2px);
+      transition: opacity 0.12s, transform 0.12s;
+    }
+
+    .mail-link:hover::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .footer-meta {
+      color: var(--label-d);
+      font-family: 'Ubuntu Sans Mono', monospace;
+      font-size: 11px;
+    }
+
+    @media (max-width: 420px) {
+      main {
+        padding-top: 3rem;
+      }
+
+      .header {
+        margin-bottom: 3rem;
+      }
+
+      .app-link {
+        grid-template-columns: 1fr;
+        gap: 0.35rem;
+      }
+
+      .app-url {
+        font-size: 10px;
+      }
+
+      footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.45rem;
+      }
     }
   </style>
 </head>
+
 <body>
   <main>
     <div class="header">
       <div class="header-left">
-        <span class="wordmark">cupya.me</span></span>
+        <span class="wordmark">cupya.me</span>
         <span class="tagline">welcome!</span>
       </div>
-      <button class="theme-btn" id="themeBtn">light</button>
+
+      <button class="theme-btn" id="themeBtn" type="button">light</button>
     </div>
 
     <p class="section-label">apps</p>
+
     <ul class="app-list">
       <li class="app-item">
-        <a class="app-link" href="https://cp.cupya.me" target="_blank">
-          <div class="app-row-top">
+        <a class="app-link" href="https://cp.cupya.me" target="_blank" rel="noreferrer">
+          <div class="app-main">
             <span class="app-name">crop.playshare</span>
-            <span class="app-url">cp.cupya.me</span>
+            <span class="app-desc">팝픈뮤직 플레이셰어 스크린샷 자르기</span>
           </div>
-          <span class="app-desc">팝픈뮤직 플레이셰어 스크린샷 자르기</span>
+
+          <span class="app-url">cp.cupya.me</span>
         </a>
       </li>
+
       <li class="app-item">
-        <a class="app-link" href="https://al.cupya.me" target="_blank">
-          <div class="app-row-top">
+        <a class="app-link" href="https://al.cupya.me" target="_blank" rel="noreferrer">
+          <div class="app-main">
             <span class="app-name">arcade@live</span>
-            <span class="app-url">al.cupya.me</span>
+            <span class="app-desc">오락실 게임 방송 모아보기</span>
           </div>
-          <span class="app-desc">오락실 게임 방송 모아보기</span>
+
+          <span class="app-url">al.cupya.me</span>
         </a>
       </li>
     </ul>
   </main>
 
   <footer>
-    <span class="footer-nick">ｃｕｐｙａ<span class="tilde">～</span> <a href="https://x.com/ringanaku" target="_blank">@ringanaku</a></span>
-    <span class="footer-count" id="footerCount"></span>
+    <a href="#" class="mail-link" id="mailLink" aria-label="Send mail">
+      <span class="mail-label">contact —</span>
+      <span class="mail-address">me<span data-at></span>cupya.me</span>
+    </a>
+
+    <span class="footer-meta">2 apps</span>
   </footer>
 
   <script>
@@ -262,6 +364,7 @@
       root.classList.toggle('light', isLight);
       themeBtn.textContent = isLight ? 'dark' : 'light';
     }
+
     applyTheme();
 
     themeBtn.onclick = () => {
@@ -270,8 +373,13 @@
       applyTheme();
     };
 
-    document.getElementById('footerCount').textContent =
-      document.querySelectorAll('.app-item').length + ' apps';
+    const user = 'me';
+    const domain = 'cupya.me';
+    const address = `${user}@${domain}`;
+
+    const mailLink = document.getElementById('mailLink');
+    mailLink.href = `mailto:${address}`;
+    mailLink.querySelector('[data-at]').textContent = '@';
   </script>
 </body>
 </html>
