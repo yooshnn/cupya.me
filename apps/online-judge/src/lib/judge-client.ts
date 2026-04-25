@@ -26,6 +26,7 @@ interface ContentCheckerInput {
 type ContentChecker = (input: ContentCheckerInput) => CheckerOutcome | Promise<CheckerOutcome>;
 
 const checkerRegistry: CheckerRegistry = {};
+const checkerModulePromises = new Map<string, Promise<ContentChecker>>();
 let runtimePromise: Promise<RuntimeWithTerminate> | null = null;
 
 function getRequiredRuntimeEnv(name: RuntimeEnvName): string {
@@ -55,6 +56,42 @@ function isContentChecker(value: unknown): value is ContentChecker {
   return typeof value === 'function';
 }
 
+async function loadContentChecker(path: string): Promise<ContentChecker> {
+  const cached = checkerModulePromises.get(path);
+  if (cached) {
+    return cached;
+  }
+
+  const promise = fetch(`/oj-content/${path}`)
+    .then(async (response) => {
+      if (!response.ok) {
+        throw new Error(`failed to load custom checker: HTTP ${response.status}`);
+      }
+
+      const source = await response.text();
+      const blobUrl = URL.createObjectURL(new Blob([source], { type: 'text/javascript' }));
+      try {
+        const module = await import(/* @vite-ignore */ blobUrl);
+        const exported = (module as { default?: unknown }).default;
+        if (!isContentChecker(exported)) {
+          throw new TypeError(`custom checker does not export a default function: ${path}`);
+        }
+
+        return exported;
+      }
+      finally {
+        URL.revokeObjectURL(blobUrl);
+      }
+    })
+    .catch((error) => {
+      checkerModulePromises.delete(path);
+      throw error;
+    });
+
+  checkerModulePromises.set(path, promise);
+  return promise;
+}
+
 export async function ensureChecker(problem: ProblemBundle): Promise<void> {
   const checker = problem.judge.problem.checker;
   if (checker.kind !== 'custom') {
@@ -69,14 +106,9 @@ export async function ensureChecker(problem: ProblemBundle): Promise<void> {
     throw new Error(`custom checker asset is missing: ${checker.checkerId}`);
   }
 
-  const module = await import(/* @vite-ignore */ `/oj-content/${problem.checkerAsset.path}`);
-  const exported = (module as { default?: unknown }).default;
-  if (!isContentChecker(exported)) {
-    throw new TypeError(`custom checker does not export a default function: ${checker.checkerId}`);
-  }
-
+  const checkerModule = await loadContentChecker(problem.checkerAsset.path);
   const adapter: CheckerFunction = context =>
-    exported({
+    checkerModule({
       execution: context.execution,
       test: context.testCase,
     });
