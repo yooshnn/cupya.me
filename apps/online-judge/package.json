@@ -16,6 +16,7 @@
 		"lint": "eslint ."
 	},
 	"dependencies": {
+		"@base-ui/react": "catalog:",
 		"@cupya.me/wasm-judge-runtime-browser": "^0.1.0",
 		"@cupya.me/wasm-judge-runtime-core": "^0.1.0",
 		"@phosphor-icons/react": "catalog:",

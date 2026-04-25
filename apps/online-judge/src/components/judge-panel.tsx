@@ -2,11 +2,11 @@
 
 import type { JudgeTestCase } from '@cupya.me/wasm-judge-runtime-core';
 import type { JudgeMode, ProblemBundle, RuntimeState, SubmissionRecord } from '../lib/types';
-import { useMemo, useState } from 'react';
+import { PlayIcon } from '@phosphor-icons/react';
+import { useState } from 'react';
 import { buildJudgeRequest, ensureChecker, ensureRuntime, fetchJudgeCases } from '../lib/judge-client';
 import { resultElapsed, resultPassed, resultStatus, statusClass, statusLabel } from '../lib/judge-result';
-import { ResultModal } from './result-modal';
-import { SubmissionList } from './submission-list';
+import { ResultDialog } from './result-dialog';
 
 const SOURCE_LIMIT_BYTES = 200_000;
 
@@ -15,22 +15,15 @@ interface JudgePanelProps {
 }
 
 export function JudgePanel({ problem }: JudgePanelProps) {
-  const [enabled, setEnabled] = useState(false);
   const [runtimeState, setRuntimeState] = useState<RuntimeState>('idle');
   const [sourceCode, setSourceCode] = useState(problem.template);
-  const [submissions, setSubmissions] = useState<SubmissionRecord[]>([]);
-  const [selectedSubmissionId, setSelectedSubmissionId] = useState<string | null>(null);
+  const [latestSubmission, setLatestSubmission] = useState<SubmissionRecord | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [runningMode, setRunningMode] = useState<JudgeMode | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [fullTestsPromise, setFullTestsPromise] = useState<Promise<JudgeTestCase[]> | null>(null);
 
-  const selectedSubmission = useMemo(
-    () => submissions.find(submission => submission.id === selectedSubmissionId) ?? null,
-    [selectedSubmissionId, submissions],
-  );
-
   async function activateEditor() {
-    setEnabled(true);
     setRuntimeState('bootstrapping');
     setError(null);
 
@@ -73,8 +66,8 @@ export function JudgePanel({ problem }: JudgePanelProps) {
         result,
       };
 
-      setSubmissions(current => [submission, ...current]);
-      setSelectedSubmissionId(submission.id);
+      setLatestSubmission(submission);
+      setDialogOpen(true);
     }
     catch (judgeError) {
       setError(judgeError instanceof Error ? judgeError.message : String(judgeError));
@@ -87,83 +80,123 @@ export function JudgePanel({ problem }: JudgePanelProps) {
     }
   }
 
-  const latest = submissions[0];
   const isBusy = runtimeState === 'bootstrapping' || runningMode !== null;
-  const runningMessage = runningMode === 'sample' ? '샘플 채점 중입니다.' : '전체 채점 중입니다.';
+  const overlayState: 'idle' | 'bootstrapping' | 'running' | null
+    = runningMode
+      ? 'running'
+      : runtimeState === 'idle'
+        ? 'idle'
+        : runtimeState === 'bootstrapping'
+          ? 'bootstrapping'
+          : null;
 
   return (
     <section className="judge-panel" aria-label="C++ 채점">
       <div className="judge-panel__header">
         <div>
-          <h2>채점</h2>
+          <h2>
+            채점
+            <span
+              className={`runtime-dot runtime-dot--${runningMode ? 'running' : runtimeState}`}
+              aria-label={runningMode ? 'running' : runtimeState}
+            />
+          </h2>
           <p>C++ (Clang/LLVM 22, wasm32-wasi)</p>
         </div>
-        <span className={`runtime-dot runtime-dot--${runtimeState}`}>{runtimeState}</span>
       </div>
 
-      {!enabled && (
-        <button className="primary-action" type="button" onClick={activateEditor}>
-          에디터 활성화
+      <div className="judge-editor-wrap">
+        <textarea
+          className="code-editor"
+          value={sourceCode}
+          spellCheck={false}
+          onChange={event => setSourceCode(event.currentTarget.value)}
+        />
+        <div className="judge-actions">
+          <button
+            className="judge-btn"
+            type="button"
+            disabled={isBusy || runtimeState !== 'ready'}
+            onClick={() => runJudge('sample')}
+          >
+            샘플 채점
+          </button>
+          <button
+            className="judge-btn"
+            type="button"
+            disabled={isBusy || runtimeState !== 'ready'}
+            onClick={() => runJudge('full')}
+          >
+            전체 채점
+          </button>
+        </div>
+
+        {overlayState && (
+          <div
+            className={`judge-overlay judge-overlay--${overlayState}`}
+            onClick={overlayState === 'idle' ? activateEditor : undefined}
+            role={overlayState === 'idle' ? 'button' : 'status'}
+            tabIndex={overlayState === 'idle' ? 0 : undefined}
+            onKeyDown={overlayState === 'idle' ? e => e.key === 'Enter' && activateEditor() : undefined}
+            aria-label={
+              overlayState === 'idle'
+                ? '풀어보기'
+                : overlayState === 'bootstrapping'
+                  ? '컴파일러 로드 중'
+                  : '채점 중'
+            }
+          >
+            {overlayState === 'idle' && (
+              <>
+                <PlayIcon size={28} weight="fill" className="text-primary" />
+                <span className="judge-overlay__title">풀어보기</span>
+                <span className="judge-overlay__sub">C++ 컴파일러를 로드합니다 (~80MB)</span>
+              </>
+            )}
+            {overlayState === 'bootstrapping' && (
+              <>
+                <span className="judge-overlay__title">준비 중</span>
+                <span className="judge-overlay__sub">컴파일러와 테스트 데이터를 불러오는 중입니다</span>
+              </>
+            )}
+            {overlayState === 'running' && (
+              <>
+                <span className="judge-overlay__title">채점 중</span>
+                <span className="judge-overlay__sub">
+                  {runningMode === 'sample' ? '샘플 테스트를 실행하는 중입니다' : '전체 테스트를 실행하는 중입니다'}
+                </span>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+
+      {error && <p className="judge-error">{error}</p>}
+
+      {latestSubmission && (
+        <button
+          type="button"
+          className="submission-card"
+          onClick={() => setDialogOpen(true)}
+          aria-label="채점 결과 자세히 보기"
+        >
+          <span className={statusClass(resultStatus(latestSubmission.result))}>
+            {statusLabel(resultStatus(latestSubmission.result))}
+          </span>
+          <span className="submission-card__mode">
+            {latestSubmission.mode === 'sample' ? '샘플' : '전체'}
+          </span>
+          <span>{resultPassed(latestSubmission.result)}</span>
+          <span>{resultElapsed(latestSubmission.result)}</span>
+          <span className="submission-card__cta">자세히 →</span>
         </button>
       )}
 
-      {enabled && (
-        <>
-          <textarea
-            className="code-editor"
-            value={sourceCode}
-            spellCheck={false}
-            onChange={event => setSourceCode(event.currentTarget.value)}
-          />
-          <div className="judge-actions">
-            <button
-              className="primary-action"
-              type="button"
-              disabled={isBusy || runtimeState === 'error'}
-              onClick={() => runJudge('sample')}
-            >
-              샘플 채점
-            </button>
-            <button
-              className="secondary-action"
-              type="button"
-              disabled={isBusy || runtimeState === 'error'}
-              onClick={() => runJudge('full')}
-            >
-              전체 채점
-            </button>
-          </div>
-        </>
-      )}
-
-      {runningMode && (
-        <p className="judge-message">
-          {runningMessage}
-        </p>
-      )}
-      {runtimeState === 'bootstrapping' && (
-        <p className="judge-message">컴파일러와 테스트 데이터를 불러오는 중입니다.</p>
-      )}
-      {error && <p className="judge-error">{error}</p>}
-
-      {latest && (
-        <div className="latest-result">
-          <span className={statusClass(resultStatus(latest.result))}>
-            {statusLabel(resultStatus(latest.result))}
-          </span>
-          <span>{resultPassed(latest.result)}</span>
-          <span>{resultElapsed(latest.result)}</span>
-        </div>
-      )}
-
-      <SubmissionList submissions={submissions} onSelect={setSelectedSubmissionId} />
-
-      {selectedSubmission && (
-        <ResultModal
-          submission={selectedSubmission}
-          onClose={() => setSelectedSubmissionId(null)}
-        />
-      )}
+      <ResultDialog
+        submission={latestSubmission}
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+      />
     </section>
   );
 }
