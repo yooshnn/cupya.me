@@ -11,6 +11,11 @@ import type { ProblemBundle } from './types';
 
 type RuntimeEnvName = 'WAKU_PUBLIC_JUDGE_SYSROOT_URL' | 'WAKU_PUBLIC_YOWASP_CLANG_BUNDLE_URL';
 
+const runtimeEnv: Record<RuntimeEnvName, string | undefined> = {
+  WAKU_PUBLIC_JUDGE_SYSROOT_URL: import.meta.env.WAKU_PUBLIC_JUDGE_SYSROOT_URL,
+  WAKU_PUBLIC_YOWASP_CLANG_BUNDLE_URL: import.meta.env.WAKU_PUBLIC_YOWASP_CLANG_BUNDLE_URL,
+};
+
 type RuntimeWithTerminate = JudgeRuntime & { terminate: () => void };
 
 interface ContentCheckerInput {
@@ -24,7 +29,7 @@ const checkerRegistry: CheckerRegistry = {};
 let runtimePromise: Promise<RuntimeWithTerminate> | null = null;
 
 function getRequiredRuntimeEnv(name: RuntimeEnvName): string {
-  const value = import.meta.env[name];
+  const value = runtimeEnv[name];
   if (typeof value !== 'string' || value.length === 0) {
     throw new Error(`${name} is required for browser judging`);
   }
