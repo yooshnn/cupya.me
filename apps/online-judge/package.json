@@ -18,6 +18,7 @@
 	"dependencies": {
 		"@cupya.me/wasm-judge-runtime-browser": "^0.1.0",
 		"@cupya.me/wasm-judge-runtime-core": "^0.1.0",
+		"@phosphor-icons/react": "catalog:",
 		"hono": "^4.12.12",
 		"katex": "^0.16.25",
 		"react": "~19.2.5",

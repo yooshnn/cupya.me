@@ -274,6 +274,9 @@ importers:
       '@cupya.me/wasm-judge-runtime-core':
         specifier: ^0.1.0
         version: 0.1.0
+      '@phosphor-icons/react':
+        specifier: 'catalog:'
+        version: 2.1.10(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       hono:
         specifier: ^4.12.12
         version: 4.12.14
@@ -5931,6 +5934,11 @@ snapshots:
     dependencies:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
+
+  '@phosphor-icons/react@2.1.10(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+    dependencies:
+      react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
 
   '@pkgr/core@0.2.9': {}
 
