@@ -21,7 +21,8 @@
 		"html_handling": "drop-trailing-slash"
 	},
 	"vars": {
-		"WAKU_PUBLIC_JUDGE_ARTIFACT_BASE_URL": "https://judge-artifacts.cupya.me/wasm-judge-runtime/2026-04-24/"
+		"WAKU_PUBLIC_JUDGE_SYSROOT_URL": "https://static.cupya.me/sysroot.tar.gz",
+		"WAKU_PUBLIC_YOWASP_CLANG_BUNDLE_URL": "https://cdn.jsdelivr.net/npm/@yowasp/clang@22.0.0-git20542-10/gen/bundle.js"
 	},
 	"observability": {
 		"enabled": true

@@ -9,9 +9,7 @@ import type {
 } from '@cupya.me/wasm-judge-runtime-core';
 import type { ProblemBundle } from './types';
 
-const DEFAULT_ARTIFACT_BASE_URL
-  = 'https://judge-artifacts.cupya.me/wasm-judge-runtime/2026-04-24/';
-const LOCAL_ARTIFACT_BASE_URL = '/judge-artifacts/';
+type RuntimeEnvName = 'WAKU_PUBLIC_JUDGE_SYSROOT_URL' | 'WAKU_PUBLIC_YOWASP_CLANG_BUNDLE_URL';
 
 type RuntimeWithTerminate = JudgeRuntime & { terminate: () => void };
 
@@ -25,23 +23,20 @@ type ContentChecker = (input: ContentCheckerInput) => CheckerOutcome | Promise<C
 const checkerRegistry: CheckerRegistry = {};
 let runtimePromise: Promise<RuntimeWithTerminate> | null = null;
 
-function getArtifactBaseUrl(): string {
-  const configured = import.meta.env.WAKU_PUBLIC_JUDGE_ARTIFACT_BASE_URL;
-  const hostname = globalThis.location?.hostname;
-  const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
-
-  if (isLocalhost) {
-    return LOCAL_ARTIFACT_BASE_URL;
+function getRequiredRuntimeEnv(name: RuntimeEnvName): string {
+  const value = import.meta.env[name];
+  if (typeof value !== 'string' || value.length === 0) {
+    throw new Error(`${name} is required for browser judging`);
   }
-
-  return configured ?? DEFAULT_ARTIFACT_BASE_URL;
+  return value;
 }
 
 export async function ensureRuntime(): Promise<RuntimeWithTerminate> {
   if (!runtimePromise) {
     runtimePromise = import('@cupya.me/wasm-judge-runtime-browser').then(({ createJudgeRuntime }) =>
       createJudgeRuntime({
-        artifactBaseUrl: getArtifactBaseUrl(),
+        sysrootUrl: getRequiredRuntimeEnv('WAKU_PUBLIC_JUDGE_SYSROOT_URL'),
+        yowaspClangBundleUrl: getRequiredRuntimeEnv('WAKU_PUBLIC_YOWASP_CLANG_BUNDLE_URL'),
         checkers: checkerRegistry,
         version: 'online-judge-mvp',
       }),
