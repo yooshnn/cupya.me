@@ -1,8 +1,8 @@
 'use client';
 
+import type { SubmissionRecord } from '../lib/types';
 import { Dialog } from '@base-ui/react/dialog';
 import { XIcon } from '@phosphor-icons/react';
-import type { SubmissionRecord } from '../lib/types';
 import { formatBytes, resultStatus, statusClass, statusLabel } from '../lib/judge-result';
 
 interface ResultDialogProps {
@@ -12,7 +12,8 @@ interface ResultDialogProps {
 }
 
 export function ResultDialog({ submission, open, onOpenChange }: ResultDialogProps) {
-  if (!submission) return null;
+  if (!submission)
+    return null;
 
   const { result } = submission;
   const status = resultStatus(result);
@@ -66,11 +67,19 @@ function FinishedSection({ result }: { result: FinishedJudgeResult }) {
       <div className="result-stats">
         <div className="result-stat">
           <span>통과</span>
-          <strong>{result.summary.passed}/{result.summary.total}</strong>
+          <strong>
+            {result.summary.passed}
+            /
+            {result.summary.total}
+          </strong>
         </div>
         <div className="result-stat">
           <span>시간</span>
-          <strong>{result.summary.totalElapsedMs} ms</strong>
+          <strong>
+            {result.summary.totalElapsedMs}
+            {' '}
+            ms
+          </strong>
         </div>
         <div className="result-stat">
           <span>메모리</span>
@@ -90,7 +99,11 @@ function FinishedSection({ result }: { result: FinishedJudgeResult }) {
                 <div className="test-item__header">
                   <span className="test-item__id">{test.id}</span>
                   <span className={statusClass(test.status)}>{statusLabel(test.status)}</span>
-                  <span className="test-item__time">{test.elapsedMs} ms</span>
+                  <span className="test-item__time">
+                    {test.elapsedMs}
+                    {' '}
+                    ms
+                  </span>
                 </div>
                 {test.message && <p className="test-item__msg">{test.message}</p>}
                 <div className="io-grid">
@@ -120,7 +133,11 @@ function FinishedSection({ result }: { result: FinishedJudgeResult }) {
               <div key={test.id} className="test-item test-item--pass">
                 <span className="test-item__id">{test.id}</span>
                 <span className="status-accepted">AC</span>
-                <span className="test-item__time">{test.elapsedMs} ms</span>
+                <span className="test-item__time">
+                  {test.elapsedMs}
+                  {' '}
+                  ms
+                </span>
               </div>
             ))}
           </div>

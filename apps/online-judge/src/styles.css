@@ -360,7 +360,15 @@
   }
 
   .code-editor {
-    @apply min-h-[300px] w-full resize-y rounded-lg border border-line bg-[var(--code-bg)] p-3.5 font-mono text-[0.875rem] leading-[1.6] text-[var(--code-text)];
+    @apply min-h-[300px] w-full overflow-hidden rounded-lg border border-line bg-[var(--code-bg)] text-[var(--code-text)];
+  }
+
+  .code-editor .cm-editor {
+    @apply min-h-[300px];
+  }
+
+  .code-editor .cm-scroller {
+    @apply overflow-auto;
   }
 
   .judge-editor-wrap {

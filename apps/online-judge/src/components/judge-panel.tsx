@@ -6,6 +6,7 @@ import { PlayIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { buildJudgeRequest, ensureChecker, ensureRuntime, fetchJudgeCases } from '../lib/judge-client';
 import { resultElapsed, resultPassed, resultStatus, statusClass, statusLabel } from '../lib/judge-result';
+import { CodeEditor } from './code-editor';
 import { ResultDialog } from './result-dialog';
 
 const SOURCE_LIMIT_BYTES = 200_000;
@@ -106,11 +107,11 @@ export function JudgePanel({ problem }: JudgePanelProps) {
       </div>
 
       <div className="judge-editor-wrap">
-        <textarea
+        <CodeEditor
           className="code-editor"
           value={sourceCode}
-          spellCheck={false}
-          onChange={event => setSourceCode(event.currentTarget.value)}
+          onChange={setSourceCode}
+          readOnly={overlayState !== null}
         />
         <div className="judge-actions">
           <button
