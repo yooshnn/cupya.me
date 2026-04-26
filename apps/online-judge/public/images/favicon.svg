@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <defs>
+    <mask id="cutout">
+      <rect width="512" height="512" fill="white"/>
+      <circle cx="256" cy="0" r="90" fill="black"/>
+    </mask>
+  </defs>
+  <rect width="512" height="512" fill="#d8f050" mask="url(#cutout)"/>
+  <text x="290" y="440" text-anchor="middle" font-family="'Arial Black', 'Helvetica Neue', sans-serif" font-size="240" font-weight="900" fill="#1a1f08" mask="url(#cutout)">CP</text>
+</svg>

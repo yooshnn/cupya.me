@@ -10,7 +10,7 @@ export default async function ProblemPage({ id }: PageProps<'/problems/[id]'>) {
 
   return (
     <section className="problem-page">
-      <title>{`${problem.title} | oj.cupya.me`}</title>
+      <title>{`${problem.title} | CPOJ`}</title>
       <article className="problem-statement">
         <header className="problem-title">
           <p>{problem.source || problem.id}</p>

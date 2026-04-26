@@ -9,9 +9,9 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-10 border-b border-line bg-elevated/90 backdrop-blur-sm">
-      <div className="mx-auto flex w-[min(100%,960px)] items-center justify-between px-4 py-3">
+      <div className="mx-auto flex w-full items-center justify-between px-6 py-3 md:px-8">
         <Link to="/" className="font-mono text-sm font-bold text-label">
-          oj.cupya.me
+          Online Judge
         </Link>
         <nav className="flex items-center gap-6 text-sm font-medium text-label-a">
           <Link to="/problems" className="transition-colors hover:text-label">

@@ -8,7 +8,7 @@ export default async function EditorialPage({ id }: PageProps<'/problems/[id]/ed
 
   return (
     <section className="page-shell">
-      <title>{`${problem.title} 해설 | oj.cupya.me`}</title>
+      <title>{`${problem.title} 해설 | CPOJ`}</title>
       <header className="problem-title">
         <p>{problem.source || problem.id}</p>
         <h1>{`${problem.title} 해설`}</h1>

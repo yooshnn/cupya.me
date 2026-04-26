@@ -1,5 +1,6 @@
+/* eslint-disable react-dom/no-dangerously-set-innerhtml */
+
 import type { ReactNode } from 'react';
-import { Footer } from '../components/footer';
 import { Header } from '../components/header';
 import 'katex/dist/katex.min.css';
 import '../styles.css';
@@ -26,11 +27,10 @@ export default async function RootLayout({ children }: RootLayoutProps) {
         name="description"
         content="직접 만든 알고리즘 문제를 읽고 브라우저에서 C++ 코드를 채점하는 문제 아카이브"
       />
-      <link rel="icon" type="image/png" href="/images/favicon.png" />
+      <link rel="icon" type="image/png" href="/images/favicon.svg" />
       <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       <Header />
       <main className="flex flex-1 flex-col">{children}</main>
-      <Footer />
     </div>
   );
 }

@@ -12,7 +12,7 @@ export default async function ProblemsPage() {
 
   return (
     <section className="page-shell page-shell--narrow">
-      <title>Problems | oj.cupya.me</title>
+      <title>Problems | CPOJ</title>
 
       <header className="page-header problem-index__header">
         <p>Problems</p>

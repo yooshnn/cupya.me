@@ -1,4 +1,4 @@
-import { CodeIcon, GlobeIcon } from '@phosphor-icons/react/dist/ssr';
+import { ArrowRightIcon, CodeIcon, GlobeIcon } from '@phosphor-icons/react/dist/ssr';
 import { Link } from 'waku';
 import { getProblemIndex } from '../lib/content';
 
@@ -7,22 +7,26 @@ export default async function HomePage() {
 
   return (
     <>
-      <title>oj.cupya.me</title>
+      <title>Cupya Online Judge</title>
 
       <section className="home-hero">
         <div className="home-hero__inner">
-          <p className="home-eyebrow">Problem Solving Archive</p>
+          <p className="home-eyebrow">Online Judge Archive</p>
           <h1 className="home-h1">
-            PS 아카이브
+            <img src="/images/favicon.svg" alt="" aria-hidden="true" className="home-h1__mark" />
+            OJ 아카이브
           </h1>
           <p className="home-desc">
-            직접 출제한 알고리즘 문제와 해설을 정리해 두었고,
+            직접 출제한 알고리즘 문제와 해설을 정리하여 공개합니다.
             <br />
             브라우저에서 C++로 바로 풀어볼 수 있습니다.
           </p>
-          <Link to="/problems" className="home-cta">
-            문제 목록 보기 →
-          </Link>
+          <div className="home-cta-group">
+            <Link to="/problems" className="home-cta">
+              <span>문제 목록 보기</span>
+              <span aria-hidden="true"><ArrowRightIcon size={18} /></span>
+            </Link>
+          </div>
         </div>
       </section>
 
