@@ -3,13 +3,16 @@
 import type { JudgeTestCase } from '@cupya.me/wasm-judge-runtime-core';
 import type { JudgeMode, ProblemBundle, RuntimeState, SubmissionRecord } from '../lib/types';
 import { PlayIcon } from '@phosphor-icons/react';
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { buildJudgeRequest, ensureChecker, ensureRuntime, fetchJudgeCases } from '../lib/judge-client';
 import { resultElapsed, resultPassed, resultStatus, statusClass, statusLabel } from '../lib/judge-result';
-import { CodeEditor } from './code-editor';
 import { ResultDialog } from './result-dialog';
 
 const SOURCE_LIMIT_BYTES = 200_000;
+const CodeEditor = lazy(async () => {
+  const module = await import('./code-editor');
+  return { default: module.CodeEditor };
+});
 
 interface JudgePanelProps {
   problem: ProblemBundle;
@@ -90,6 +93,7 @@ export function JudgePanel({ problem }: JudgePanelProps) {
         : runtimeState === 'bootstrapping'
           ? 'bootstrapping'
           : null;
+  const shouldLoadEditor = overlayState !== 'idle';
 
   return (
     <section className="judge-panel" aria-label="C++ 채점">
@@ -107,12 +111,18 @@ export function JudgePanel({ problem }: JudgePanelProps) {
       </div>
 
       <div className="judge-editor-wrap">
-        <CodeEditor
-          className="code-editor"
-          value={sourceCode}
-          onChange={setSourceCode}
-          readOnly={overlayState !== null}
-        />
+        {shouldLoadEditor ? (
+          <Suspense fallback={<EditorPreview value={sourceCode} />}>
+            <CodeEditor
+              className="code-editor"
+              value={sourceCode}
+              onChange={setSourceCode}
+              readOnly={overlayState !== null}
+            />
+          </Suspense>
+        ) : (
+          <EditorPreview value={sourceCode} />
+        )}
         <div className="judge-actions">
           <button
             className="judge-btn"
@@ -199,5 +209,13 @@ export function JudgePanel({ problem }: JudgePanelProps) {
         onOpenChange={setDialogOpen}
       />
     </section>
+  );
+}
+
+function EditorPreview({ value }: { value: string }) {
+  return (
+    <div className="code-editor code-editor--preview" aria-hidden="true">
+      <pre className="code-editor__preview-content">{value}</pre>
+    </div>
   );
 }

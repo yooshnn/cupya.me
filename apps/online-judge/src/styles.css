@@ -371,6 +371,14 @@
     @apply overflow-auto;
   }
 
+  .code-editor--preview {
+    @apply flex items-stretch;
+  }
+
+  .code-editor__preview-content {
+    @apply m-0 min-h-[300px] w-full overflow-auto px-4 py-3.5 font-mono text-[0.875rem] leading-[1.6] whitespace-pre-wrap;
+  }
+
   .judge-editor-wrap {
     @apply relative grid gap-2.5;
   }
