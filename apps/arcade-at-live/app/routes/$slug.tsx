@@ -33,7 +33,7 @@ export async function loader({ request, params, context }: Route.LoaderArgs) {
   const arcade = await getArcadeBySlug(db, env.CACHE, slug);
 
   const [{ streams, scrapeFailed, timestamp }, games, settings] = await Promise.all([
-    getActiveStreamsByArcadeId({ db, kv: env.CACHE, ctx, arcadeId: arcade.id }),
+    getActiveStreamsByArcadeId({ db, kv: env.CACHE, ctx, arcadeId: arcade.id, youtubeApiKey: env.YOUTUBE_API_KEY }),
     getGamesByArcadeId({ db, kv: env.CACHE, arcadeId: arcade.id }),
     getSettings(request),
   ]);

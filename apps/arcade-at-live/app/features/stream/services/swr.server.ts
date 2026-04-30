@@ -8,9 +8,10 @@ async function fetchAndCacheStreams(
   kv: KVNamespace,
   arcadeId: number,
   youtubeChannelIds: string[],
+  youtubeApiKey?: string,
   oldStreams?: LiveStreamInfo[],
 ): Promise<{ streams: LiveStreamInfo[] | null; timestamp: number }> {
-  const fetchedStreams = await getLiveStreamsFromChannels(youtubeChannelIds);
+  const fetchedStreams = await getLiveStreamsFromChannels(youtubeChannelIds, { apiKey: youtubeApiKey });
   const now = Date.now();
 
   if (fetchedStreams) {
@@ -29,6 +30,7 @@ interface GetLiveStreamsSWRParams {
   ctx: ExecutionContext;
   arcadeId: number;
   channelIds: string[];
+  youtubeApiKey?: string;
 }
 
 export interface SWRFetchResult {
@@ -38,7 +40,7 @@ export interface SWRFetchResult {
 }
 
 export async function getLiveStreamsWithSWR(
-  { kv, ctx, arcadeId, channelIds }: GetLiveStreamsSWRParams,
+  { kv, ctx, arcadeId, channelIds, youtubeApiKey }: GetLiveStreamsSWRParams,
 ): Promise<SWRFetchResult> {
   const now = Date.now();
   const cacheData = await getCachedStreams(kv, arcadeId);
@@ -52,7 +54,7 @@ export async function getLiveStreamsWithSWR(
       ctx.waitUntil(setCachedStreams(kv, arcadeId, { timestamp: now, streams: cacheData.streams }).catch(() => {}));
 
       ctx.waitUntil(
-        fetchAndCacheStreams(kv, arcadeId, channelIds, cacheData.streams).catch((err) => {
+        fetchAndCacheStreams(kv, arcadeId, channelIds, youtubeApiKey, cacheData.streams).catch((err) => {
           console.error('Background cache update failed:', err);
         }),
       );
@@ -62,7 +64,7 @@ export async function getLiveStreamsWithSWR(
   }
 
   // Cache miss
-  const { streams, timestamp } = await fetchAndCacheStreams(kv, arcadeId, channelIds);
+  const { streams, timestamp } = await fetchAndCacheStreams(kv, arcadeId, channelIds, youtubeApiKey);
 
   return {
     streams,

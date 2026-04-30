@@ -10,6 +10,7 @@ interface GetActiveStreamsByArcadeIdParams {
   kv: KVNamespace;
   ctx: ExecutionContext;
   arcadeId: number;
+  youtubeApiKey?: string;
 }
 
 export interface ActiveStreamsResult {
@@ -19,7 +20,7 @@ export interface ActiveStreamsResult {
 }
 
 export async function getActiveStreamsByArcadeId(
-  { db, kv, ctx, arcadeId }: GetActiveStreamsByArcadeIdParams,
+  { db, kv, ctx, arcadeId, youtubeApiKey }: GetActiveStreamsByArcadeIdParams,
 ): Promise<ActiveStreamsResult> {
   const [channels, rules] = await Promise.all([
     getChannelsByArcadeId(db, kv, arcadeId),
@@ -31,6 +32,7 @@ export async function getActiveStreamsByArcadeId(
     ctx,
     arcadeId,
     channelIds: channels.map(c => c.youtube_channel_id),
+    youtubeApiKey,
   });
 
   console.log(matchStreams(streams ?? [], rules));
