@@ -4,6 +4,10 @@ export interface LiveStreamInfo {
   embedUrl: string;
 }
 
+export interface YouTubeLiveStreamCollector {
+  getLiveStreamsFromChannel: (channelId: string) => Promise<LiveStreamInfo[] | null>;
+}
+
 // Internal types for ytInitialData object
 
 export interface YtTextRun {
