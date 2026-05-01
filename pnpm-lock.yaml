@@ -63,6 +63,9 @@ catalogs:
     eslint-plugin-react-refresh:
       specifier: ^0.5.2
       version: 0.5.2
+    html-entities:
+      specifier: ^2.6.0
+      version: 2.6.0
     i18next:
       specifier: ^25.8.0
       version: 25.8.20
@@ -134,6 +137,9 @@ importers:
       drizzle-orm:
         specifier: 'catalog:'
         version: 0.45.1(@cloudflare/workers-types@4.20260313.1)
+      html-entities:
+        specifier: 'catalog:'
+        version: 2.6.0
       isbot:
         specifier: 'catalog:'
         version: 5.1.36

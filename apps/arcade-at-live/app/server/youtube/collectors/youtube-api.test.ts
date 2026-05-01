@@ -9,7 +9,7 @@ describe('createYouTubeApiLiveStreamCollector', () => {
   it('maps successful live search responses to live stream info', async () => {
     const fetch = vi.fn().mockResolvedValue(jsonResponse({
       items: [
-        { id: { videoId: 'abc123' }, snippet: { title: 'Live title' } },
+        { id: { videoId: 'abc123' }, snippet: { title: 'pop&#39;n &amp; music' } },
       ],
     }));
     vi.stubGlobal('fetch', fetch);
@@ -19,7 +19,7 @@ describe('createYouTubeApiLiveStreamCollector', () => {
     await expect(collector.getLiveStreamsFromChannel('channel-id')).resolves.toEqual([
       {
         videoId: 'abc123',
-        title: 'Live title',
+        title: 'pop\'n & music',
         embedUrl: 'https://www.youtube.com/embed/abc123?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1',
       },
     ]);

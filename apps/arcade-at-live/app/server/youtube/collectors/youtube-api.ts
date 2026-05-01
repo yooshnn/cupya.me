@@ -1,4 +1,5 @@
 import type { LiveStreamInfo, YouTubeLiveStreamCollector } from '../shared/types';
+import { decode } from 'html-entities';
 import { buildEmbedUrl } from '../shared/embed-url';
 
 interface YouTubeApiCollectorOptions {
@@ -59,7 +60,7 @@ export function createYouTubeApiLiveStreamCollector(
 
           return [{
             videoId,
-            title,
+            title: decode(title),
             embedUrl: buildEmbedUrl(videoId),
           }];
         });

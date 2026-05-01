@@ -2,6 +2,7 @@ import type { MatchedStream } from './types';
 import type { DB } from '~/server/db/client';
 import type { StreamRule } from '~/server/db/schema';
 import type { LiveStreamInfo } from '~/server/youtube/types';
+import { decode } from 'html-entities';
 import { getChannelsByArcadeId, getStreamRulesByArcadeId } from '~/features/arcade/arcade.server';
 import { getLiveStreamsWithSWR } from './swr.server';
 
@@ -50,7 +51,8 @@ export function matchStreams(
 ): MatchedStream[] {
   // priority ASC order is guaranteed by queryStreamRulesByArcadeId
   return streams.flatMap((stream) => {
-    const rule = rules.find(r => stream.title.includes(r.keyword));
+    const title = decode(stream.title);
+    const rule = rules.find(r => title.includes(decode(r.keyword)));
     return rule ? [{ ...stream, gameId: rule.game_id, machineLabel: rule.machine_label }] : [];
   });
 }
