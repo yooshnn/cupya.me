@@ -35,8 +35,6 @@ export async function getActiveStreamsByArcadeId(
     youtubeApiKey,
   });
 
-  console.log(matchStreams(streams ?? [], rules));
-
   return {
     streams: matchStreams(streams ?? [], rules),
     scrapeFailed,
@@ -50,7 +48,6 @@ export function matchStreams(
   streams: LiveStreamInfo[],
   rules: StreamRule[],
 ): MatchedStream[] {
-  console.log(rules);
   // priority ASC order is guaranteed by queryStreamRulesByArcadeId
   return streams.flatMap((stream) => {
     const rule = rules.find(r => stream.title.includes(r.keyword));
