@@ -9,6 +9,7 @@
     "dev": "react-router dev",
     "postinstall": "npm run cf-typegen",
     "preview": "pnpm run build && vite preview",
+    "test": "vitest run --config vitest.config.ts",
     "typecheck": "npm run cf-typegen && react-router typegen && tsc -b",
     "generate": "drizzle-kit generate",
     "migrate:local": "wrangler d1 migrations apply arcade-at-live-local --local",
@@ -44,6 +45,7 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-tsconfig-paths": "catalog:",
+    "vitest": "catalog:",
     "wrangler": "catalog:"
   }
 }

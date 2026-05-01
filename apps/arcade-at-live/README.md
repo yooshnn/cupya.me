@@ -32,6 +32,16 @@ npm run dev
 
 Your application will be available at `http://localhost:5173`.
 
+### YouTube API
+
+Live stream collection uses the YouTube Data API first and falls back to scraping
+when the API key is unavailable or the API request fails. Configure the key as a
+Cloudflare Worker secret:
+
+```sh
+wrangler secret put YOUTUBE_API_KEY
+```
+
 ## Previewing the Production Build
 
 Preview the production build locally:

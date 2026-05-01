@@ -1,5 +1,10 @@
-import type { LiveStreamInfo } from './types';
+import type { LiveStreamInfo, YouTubeLiveStreamCollector } from '../shared/types';
+import { buildEmbedUrl } from '../shared/embed-url';
 import { extractVideoRenderers, extractYtInitialData, isLiveRenderer, resolveTitle } from './parser';
+
+export const scraperLiveStreamCollector: YouTubeLiveStreamCollector = {
+  getLiveStreamsFromChannel,
+};
 
 /**
  * Collects a list of active live streams for a single channel.
@@ -42,7 +47,7 @@ export async function getLiveStreamsFromChannel(channelId: string): Promise<Live
     return [...liveStreams.values()];
   }
   catch (error) {
-    console.error(`Error scraping channel ${channelId}:`, error);
+    console.error(`[YouTube Scraper] Error scraping channel ${channelId}:`, error);
     return null;
   }
 }
@@ -53,7 +58,7 @@ export async function getLiveStreamsFromChannel(channelId: string): Promise<Live
  * @returns A flattened array of LiveStreamInfo objects, or null if any scraper fails
  */
 export async function getLiveStreamsFromChannels(channelIds: string[]): Promise<LiveStreamInfo[] | null> {
-  const results = await Promise.all(channelIds.map(getLiveStreamsFromChannel));
+  const results = await Promise.all(channelIds.map(channelId => scraperLiveStreamCollector.getLiveStreamsFromChannel(channelId)));
 
   // If any channel failed to scrape, we return null to prevent poisoning the cache
   // with partial data or empty arrays.
@@ -85,23 +90,4 @@ async function fetchChannelFeaturedPage(channelId: string): Promise<string> {
   }
 
   return response.text();
-}
-
-/**
- * Generates a YouTube embed player URL based on the provided video ID.
- * Includes viewer optimization parameters like autoplay, mute, and hidden controls.
- * @param videoId The YouTube video ID
- * @returns The constructed embed URL string
- */
-function buildEmbedUrl(videoId: string): string {
-  const params = new URLSearchParams({
-    autoplay: '1',
-    mute: '1',
-    controls: '0',
-    modestbranding: '1',
-    rel: '0',
-    iv_load_policy: '3',
-    disablekb: '1',
-  });
-  return `https://www.youtube.com/embed/${videoId}?${params}`;
 }
