@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createYouTubeApiLiveStreamCollector } from './api';
+import { createYouTubeApiLiveStreamCollector } from './youtube-api';
 
 describe('createYouTubeApiLiveStreamCollector', () => {
   afterEach(() => {

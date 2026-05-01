@@ -1,5 +1,5 @@
-import type { LiveStreamInfo, YouTubeLiveStreamCollector } from './types';
-import { buildEmbedUrl } from './utils';
+import type { LiveStreamInfo, YouTubeLiveStreamCollector } from '../shared/types';
+import { buildEmbedUrl } from '../shared/embed-url';
 
 interface YouTubeApiCollectorOptions {
   apiKey?: string;

@@ -1,4 +1,4 @@
-import type { YtInitialData, YtVideoRenderer } from './types';
+import type { YtInitialData, YtVideoRenderer } from '../shared/types';
 
 const YT_INITIAL_DATA_REGEX = /var ytInitialData\s*=\s*(\{.+?\});\s*(?:var |window\.|<\/script>)/s;
 

@@ -1,6 +1,6 @@
-import type { LiveStreamInfo, YouTubeLiveStreamCollector } from './types';
-import { createYouTubeApiLiveStreamCollector } from './api';
-import { scraperLiveStreamCollector } from './scraper';
+import type { LiveStreamInfo, YouTubeLiveStreamCollector } from '../shared/types';
+import { scraperLiveStreamCollector } from '../scraper/collector';
+import { createYouTubeApiLiveStreamCollector } from './youtube-api';
 
 export interface GetLiveStreamsOptions {
   apiKey?: string;

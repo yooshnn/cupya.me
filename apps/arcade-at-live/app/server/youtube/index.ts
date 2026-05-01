@@ -1,2 +1,2 @@
-export { getLiveStreamsFromChannel, getLiveStreamsFromChannels } from './collector';
-export type { LiveStreamInfo, YouTubeLiveStreamCollector } from './types';
+export { getLiveStreamsFromChannel, getLiveStreamsFromChannels } from './collectors/live-streams';
+export type { LiveStreamInfo, YouTubeLiveStreamCollector } from './shared/types';

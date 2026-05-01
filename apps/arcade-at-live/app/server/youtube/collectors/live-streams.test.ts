@@ -1,6 +1,6 @@
-import type { LiveStreamInfo, YouTubeLiveStreamCollector } from './types';
+import type { LiveStreamInfo, YouTubeLiveStreamCollector } from '../shared/types';
 import { describe, expect, it, vi } from 'vitest';
-import { getLiveStreamsFromChannel, getLiveStreamsFromChannels } from './collector';
+import { getLiveStreamsFromChannel, getLiveStreamsFromChannels } from './live-streams';
 
 const liveStream: LiveStreamInfo = {
   videoId: 'video-id',

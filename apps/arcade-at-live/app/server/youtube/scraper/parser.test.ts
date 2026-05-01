@@ -1,4 +1,4 @@
-import type { YtVideoRenderer } from './types';
+import type { YtVideoRenderer } from '../shared/types';
 import { describe, expect, it } from 'vitest';
 import { isLiveRenderer } from './parser';
 

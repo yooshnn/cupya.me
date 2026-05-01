@@ -1,6 +1,6 @@
-import type { LiveStreamInfo, YouTubeLiveStreamCollector } from './types';
+import type { LiveStreamInfo, YouTubeLiveStreamCollector } from '../shared/types';
+import { buildEmbedUrl } from '../shared/embed-url';
 import { extractVideoRenderers, extractYtInitialData, isLiveRenderer, resolveTitle } from './parser';
-import { buildEmbedUrl } from './utils';
 
 export const scraperLiveStreamCollector: YouTubeLiveStreamCollector = {
   getLiveStreamsFromChannel,
